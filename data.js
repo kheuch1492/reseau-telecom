@@ -569,6 +569,59 @@ const CASE_STUDIES = [
     ],
     duration: "Groupe en place en 2h30, avant épuisement batterie",
     escalade: "Énergie / Field"
+  },
+  {
+    id: "c5", tag: "Interférences", sev: "major",
+    title: "Coupures fréquentes malgré un bon niveau de signal",
+    context: "Site urbain 4G_Dakar_Medina, secteur 3. Plaintes de coupures d'appel.",
+    symptom: "Taux de coupure élevé alors que le niveau de signal paraît correct.",
+    kpisBefore: [
+      { k: "RSRP moyen", v: "-88 dBm (correct)", ok: true },
+      { k: "SINR moyen", v: "2 dB", ok: false },
+      { k: "DCR (taux coupure)", v: "5,2 %", ok: false },
+      { k: "Alarmes", v: "Aucune", ok: true }
+    ],
+    steps: [
+      "Détection : DCR élevé sans alarme → pas une panne",
+      "Drive test : RSRP correct MAIS SINR très faible → interférences",
+      "Analyse : une cellule voisine déborde (overshooting) et brouille le secteur",
+      "Corrélation : la zone de SINR faible correspond au chevauchement des deux cellules"
+    ],
+    cause: "Interférences dues au débordement (overshooting) d'une cellule voisine + plan de fréquences sous-optimal.",
+    action: "Down-tilt de la cellule voisine pour réduire son débordement + ajustement du plan de fréquences.",
+    kpisAfter: [
+      { k: "SINR moyen", v: "14 dB", ok: true },
+      { k: "DCR (taux coupure)", v: "0,9 %", ok: true },
+      { k: "Throughput DL", v: "nettement amélioré", ok: true }
+    ],
+    duration: "Résolu en 3 jours (analyse + ajustement + validation drive test)",
+    escalade: "Optimisation"
+  },
+  {
+    id: "c6", tag: "Mobilité", sev: "major",
+    title: "Appels coupés en se déplaçant (ping-pong de handover)",
+    context: "Axe routier entre les sites 4G_Rufisque_1 et 4G_Rufisque_2.",
+    symptom: "Coupures quand l'abonné roule entre les deux cellules.",
+    kpisBefore: [
+      { k: "HOSR (réussite handover)", v: "88 %", ok: false },
+      { k: "Nb de handovers", v: "Anormalement élevé", ok: false },
+      { k: "DCR (taux coupure)", v: "4,0 %", ok: false }
+    ],
+    steps: [
+      "Détection : DCR élevé sur un axe de mobilité",
+      "Diagnostic : HOSR faible + nombre de handovers excessif → effet 'ping-pong'",
+      "Les mobiles basculent sans arrêt entre les deux cellules en bordure",
+      "Cause : seuils et hystérésis de handover mal réglés"
+    ],
+    cause: "Mauvais réglage des seuils / de l'hystérésis de handover entre les deux cellules.",
+    action: "Ajustement des seuils de handover, de l'hystérésis et de la temporisation (time-to-trigger).",
+    kpisAfter: [
+      { k: "HOSR (réussite handover)", v: "98,5 %", ok: true },
+      { k: "Nb de handovers", v: "Normalisé", ok: true },
+      { k: "DCR (taux coupure)", v: "0,7 %", ok: true }
+    ],
+    duration: "Résolu en 2 jours (ajustement + validation)",
+    escalade: "Optimisation"
   }
 ];
 
@@ -648,6 +701,54 @@ const QUIZ = [
     options: ["Elle ne touche qu'une cellule", "Elle peut faire tomber plusieurs sites à la fois", "Elle est sans impact", "Elle se répare seule"],
     correct: 1,
     explain: "Un lien agrégé porte plusieurs sites : sa coupure a un impact massif → escalade urgente."
+  },
+  {
+    q: "Quel support de transmission est sensible à la pluie (rain fading) ?",
+    options: ["La fibre optique", "Le faisceau hertzien (FH)", "Le câble cuivre enterré", "Aucun"],
+    correct: 1,
+    explain: "Le faisceau hertzien (micro-ondes) peut être atténué par de fortes pluies — d'où des dégradations météo-dépendantes."
+  },
+  {
+    q: "Que signifie SON dans un réseau mobile ?",
+    options: ["Service Operation Network", "Self-Organizing Network", "Signal Optimization Node", "System Output Network"],
+    correct: 1,
+    explain: "SON = Self-Organizing Network : l'automatisation de la configuration, de l'optimisation et de l'auto-réparation."
+  },
+  {
+    q: "Le Self-Healing (SON) consiste à…",
+    options: ["Configurer un nouveau site", "Détecter une panne et compenser automatiquement", "Facturer les clients", "Crypter le trafic"],
+    correct: 1,
+    explain: "Le self-healing détecte une dégradation (ex. cellule down) et compense, par exemple en ajustant les cellules voisines."
+  },
+  {
+    q: "Un RSRP correct mais un SINR faible indique le plus souvent…",
+    options: ["Un trou de couverture", "Des interférences", "Une coupure d'alimentation", "Une licence expirée"],
+    correct: 1,
+    explain: "Bonne puissance (RSRP) mais signal 'sale' (SINR bas) = interférences, souvent un débordement de cellule voisine."
+  },
+  {
+    q: "Quelle topologie de transmission protège le mieux contre une coupure ?",
+    options: ["Chaîne (daisy chain)", "Anneau (ring)", "Étoile simple", "Point à point unique"],
+    correct: 1,
+    explain: "L'anneau offre un chemin de secours : si un lien casse, le trafic emprunte l'autre sens."
+  },
+  {
+    q: "En 5G, le 'network slicing' permet de…",
+    options: ["Augmenter la puissance d'émission", "Créer des tranches réseau virtuelles dédiées", "Réduire la fréquence", "Crypter les SMS"],
+    correct: 1,
+    explain: "Le slicing découpe le réseau en tranches logiques dédiées (IoT, voix critique…) avec des garanties propres."
+  },
+  {
+    q: "Un down-tilt d'antenne sert principalement à…",
+    options: ["Étendre la couverture très loin", "Réduire l'étendue d'une cellule et limiter les interférences", "Augmenter la latence", "Couper le site"],
+    correct: 1,
+    explain: "Incliner l'antenne vers le bas concentre la couverture près du site et réduit le débordement vers les voisines."
+  },
+  {
+    q: "L'analyse prédictive (AIOps) en réseau sert surtout à…",
+    options: ["Facturer les clients", "Anticiper saturations et pannes avant qu'elles surviennent", "Remplacer les antennes", "Crypter le trafic"],
+    correct: 1,
+    explain: "L'AIOps applique l'IA/la data aux logs et KPI pour détecter les anomalies et anticiper — là où un profil BI est précieux."
   }
 ];
 

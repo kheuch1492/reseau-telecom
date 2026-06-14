@@ -38,6 +38,7 @@
     <a href="#accueil" class="nav-link active">🏠 Accueil</a>
     <a href="#metier" class="nav-link">👷 Le métier</a>
     <a href="#archi" class="nav-link">🏗️ Architecture réseau</a>
+    <a href="#transmission" class="nav-link">🔗 Transmission</a>
     <a href="#generations" class="nav-link">📶 Générations & 5G</a>
     <a href="#outils" class="nav-link">🛠️ Outils (NetAct / U2020)</a>
     <a href="#boite" class="nav-link">🧰 Boîte à outils</a>
@@ -50,6 +51,7 @@
     <a href="#kpi" class="nav-link">📊 KPI essentiels</a>
     <a href="#calc" class="nav-link">🧮 Calculateur KPI</a>
     <a href="#optim" class="nav-link">🎚️ Optimisation radio</a>
+    <a href="#son" class="nav-link">🤖 SON & Automatisation</a>
     <a href="#drive" class="nav-link">🚗 Drive Test</a>
     <a href="#cas" class="nav-link">📐 Cas pratiques</a>
     <a href="#routine" class="nav-link">📋 Routine & checklist</a>
@@ -192,6 +194,44 @@
     </div>
     <div class="callout">
       <strong>💡 Logique de diagnostic :</strong> en cas de panne, on descend dans cette hiérarchie <strong>Site → BBU → Carte → RRU → Antenne</strong>, et on vérifie en parallèle la <strong>transmission</strong> et l'<strong>énergie</strong>.
+    </div>
+  </section>
+
+  <!-- TRANSMISSION -->
+  <section id="transmission" class="section">
+    <h2 class="section-title">🔗 La transmission (backhaul)</h2>
+    <p class="section-intro">La transmission relie les sites entre eux et au cœur de réseau. C'est le « tuyau » qui transporte le trafic. Une coupure ici peut faire tomber <strong>plusieurs sites d'un coup</strong>.</p>
+
+    <h3>Les supports de transmission</h3>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Support</th><th>Principe</th><th>Avantages</th><th>Limites</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Fibre optique</strong></td><td>Lumière dans un câble de verre</td><td>Très haut débit, fiable, faible latence</td><td>Coût/délai de génie civil (creuser)</td></tr>
+          <tr><td><strong>Faisceau hertzien (FH)</strong></td><td>Liaison radio point-à-point (micro-ondes)</td><td>Rapide à déployer, pas de creusement</td><td>Débit plus limité, sensible à la pluie (rain fading)</td></tr>
+          <tr><td><strong>Satellite</strong></td><td>Liaison via satellite</td><td>Couvre les zones isolées</td><td>Latence élevée, coût</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Les topologies (et leur résistance aux pannes)</h3>
+    <div class="topo-grid">
+      <div class="topo-card"><div class="topo-ico">⭐</div><strong>Étoile</strong><p>Chaque site relié à un point central. Simple, mais le central est un point unique de défaillance.</p><span class="topo-resist low">Résistance faible</span></div>
+      <div class="topo-card"><div class="topo-ico">🔗</div><strong>Chaîne (daisy chain)</strong><p>Sites reliés en série. Si un lien casse, tous les sites en aval tombent.</p><span class="topo-resist low">Résistance faible</span></div>
+      <div class="topo-card"><div class="topo-ico">🔄</div><strong>Anneau (ring)</strong><p>Boucle fermée : si un lien casse, le trafic passe par l'autre sens. Protection intégrée.</p><span class="topo-resist high">Résistance forte</span></div>
+    </div>
+
+    <h3>Notions clés</h3>
+    <div class="trans-notions">
+      <div class="notion"><strong>Bande passante</strong><p>Le débit que le lien peut transporter. Insuffisant = goulot d'étranglement.</p></div>
+      <div class="notion"><strong>Latence</strong><p>Le délai de transport. Critique pour la 5G et les services temps réel.</p></div>
+      <div class="notion"><strong>Redondance / protection</strong><p>Un chemin de secours (anneau, double lien) pour éviter la coupure totale.</p></div>
+      <div class="notion"><strong>Synchronisation</strong><p>Le réseau transporte aussi l'horloge (synchro). Sa perte affecte les handovers.</p></div>
+      <div class="notion"><strong>IP / MPLS</strong><p>Les réseaux modernes sont tout-IP (MPLS pour router/prioriser le trafic).</p></div>
+      <div class="notion"><strong>Pannes typiques</strong><p>Coupure de fibre, FH dégradé par la pluie, perte de synchro → alarmes S1/SCTP.</p></div>
+    </div>
+    <div class="callout">
+      <strong>💡 Lien avec le diagnostic :</strong> quand <strong>plusieurs sites tombent en même temps</strong>, on suspecte d'abord un problème de transmission sur un lien agrégé — pas une panne radio individuelle.
     </div>
   </section>
 
@@ -554,6 +594,54 @@
     <div class="optim-grid" id="optimGrid"></div>
     <div class="callout">
       <strong>💡 Règle d'or :</strong> on ne modifie jamais à l'aveugle. On part d'un <strong>KPI dégradé</strong> (ex. DCR élevé, SINR faible, PRB saturé), on choisit le levier adapté, puis on <strong>mesure l'effet</strong> (KPI + drive test) avant/après.
+    </div>
+  </section>
+
+  <!-- SON & AUTOMATISATION -->
+  <section id="son" class="section">
+    <h2 class="section-title">🤖 SON, automatisation & AIOps</h2>
+    <p class="section-intro">Le <strong>SON</strong> (Self-Organizing Network) automatise la gestion du réseau. C'est l'avenir du métier — et là où ton profil <strong>data</strong> devient un atout majeur.</p>
+
+    <h3>Les 3 piliers du SON</h3>
+    <div class="son-grid">
+      <div class="son-card">
+        <div class="son-ico">⚙️</div>
+        <h4>Self-Configuration</h4>
+        <p>Un nouveau site se configure quasi automatiquement (paramètres, voisinage) à sa mise en service — « plug &amp; play ».</p>
+      </div>
+      <div class="son-card">
+        <div class="son-ico">📈</div>
+        <h4>Self-Optimization</h4>
+        <p>Le réseau ajuste ses paramètres en continu : gestion des voisins (ANR), équilibrage de charge (MLB), optimisation des handovers (MRO), couverture/capacité (CCO).</p>
+      </div>
+      <div class="son-card">
+        <div class="son-ico">🩹</div>
+        <h4>Self-Healing</h4>
+        <p>Détecte une dégradation (ex. cellule down) et compense automatiquement — par exemple en augmentant la couverture des cellules voisines.</p>
+      </div>
+    </div>
+
+    <h3>Où s'exécute le SON ?</h3>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Type</th><th>Principe</th><th>Caractéristique</th></tr></thead>
+        <tbody>
+          <tr><td><strong>D-SON</strong> (distribué)</td><td>L'intelligence est dans les stations de base</td><td>Réaction rapide, locale</td></tr>
+          <tr><td><strong>C-SON</strong> (centralisé)</td><td>L'intelligence est dans une plateforme centrale</td><td>Vue d'ensemble, optimisation globale</td></tr>
+          <tr><td><strong>Hybrid SON</strong></td><td>Combinaison des deux</td><td>Le meilleur des deux mondes</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>🧠 AIOps — l'IA appliquée à l'exploitation</h3>
+    <div class="aiops-grid">
+      <div class="aiops-item"><strong>Corrélation d'alarmes</strong><p>Regrouper automatiquement les alarmes d'un même incident → trouver la cause racine sans effort.</p></div>
+      <div class="aiops-item"><strong>Détection d'anomalies</strong><p>Repérer un comportement anormal dans les KPI avant qu'il ne devienne une panne.</p></div>
+      <div class="aiops-item"><strong>Maintenance prédictive</strong><p>Anticiper une saturation ou une défaillance d'équipement à partir des tendances.</p></div>
+      <div class="aiops-item"><strong>Optimisation continue</strong><p>L'IA propose (ou applique) des ajustements de paramètres en temps réel.</p></div>
+    </div>
+    <div class="callout">
+      <strong>🎯 Ton positionnement :</strong> l'AIOps repose sur l'analyse de gros volumes de données (logs, KPI). C'est exactement la compétence <strong>BI / data</strong> — un profil « data + réseau » est précisément ce que les opérateurs recherchent pour ces équipes.
     </div>
   </section>
 
