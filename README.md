@@ -1,5 +1,7 @@
 # 📡 Réseau Télécom — Guide d'analyse & diagnostic
 
+### 🌐 Site en ligne : **https://kheuch1492.github.io/reseau-telecom/**
+
 Site de référence interactif pour l'**analyse et le diagnostic de réseau télécom** : métier d'analyste réseau, outils OSS (NetAct / U2020), commandes MML, alarmes, processus de résolution d'incident, KPI, optimisation radio, cas pratiques, quiz de révision et préparation à l'entretien.
 
 > Outil personnel de travail et de révision (transition profil BI → analyse de réseau radio / performance télécom).
