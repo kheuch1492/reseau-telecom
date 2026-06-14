@@ -40,13 +40,17 @@
     <a href="#mapping" class="nav-link">🔀 Alarmes Huawei↔Nokia</a>
     <a href="#process" class="nav-link">🔄 Résolution d'incident</a>
     <a href="#arbres" class="nav-link">🌳 Arbres de décision</a>
+    <a href="#sim" class="nav-link">🎮 Simulateur NOC</a>
     <a href="#kpi" class="nav-link">📊 KPI essentiels</a>
+    <a href="#calc" class="nav-link">🧮 Calculateur KPI</a>
     <a href="#optim" class="nav-link">🎚️ Optimisation radio</a>
     <a href="#cas" class="nav-link">📐 Cas pratiques</a>
     <a href="#routine" class="nav-link">📋 Routine & checklist</a>
     <a href="#quiz" class="nav-link">🧠 Quiz de révision</a>
+    <a href="#flash" class="nav-link">🃏 Flashcards</a>
     <a href="#entretien" class="nav-link">🎤 Préparation entretien</a>
     <a href="#glossaire" class="nav-link">📖 Glossaire</a>
+    <a href="#ressources" class="nav-link">📚 Ressources & progression</a>
     <a href="#certifs" class="nav-link">🎓 Certifications</a>
   </nav>
 
@@ -489,6 +493,30 @@
     </div>
   </section>
 
+  <!-- SIMULATEUR NOC -->
+  <section id="sim" class="section">
+    <h2 class="section-title">🎮 Simulateur NOC — tri d'alarmes</h2>
+    <p class="section-intro">Entraîne-toi à prioriser comme au NOC. Des alarmes apparaissent : clique-les <strong>de la plus urgente à la moins urgente</strong>, le plus vite possible.</p>
+    <div class="sim-box" id="simBox">
+      <div class="sim-start" id="simStart">
+        <p class="sim-rule">🎯 Règle : Critical d'abord, puis Major, puis Minor. À sévérité égale, le plus impactant (site &gt; cellule) en premier.</p>
+        <button class="btn btn-primary" id="simStartBtn">Démarrer la simulation</button>
+        <p class="sim-best" id="simBest"></p>
+      </div>
+      <div class="sim-play" id="simPlay" hidden>
+        <div class="sim-hud">
+          <span>⏱️ <strong id="simTime">0.0</strong>s</span>
+          <span>Manche <strong id="simRound">1</strong>/3</span>
+          <span>✅ <strong id="simScore">0</strong></span>
+        </div>
+        <p class="sim-instr">Clique la <strong>plus urgente</strong> restante :</p>
+        <div class="sim-alarms" id="simAlarms"></div>
+        <div class="sim-order" id="simOrder"></div>
+      </div>
+      <div class="sim-result" id="simResult" hidden></div>
+    </div>
+  </section>
+
   <!-- KPI -->
   <section id="kpi" class="section">
     <h2 class="section-title">📊 Les KPI télécom essentiels</h2>
@@ -502,6 +530,14 @@
     <div class="callout">
       <strong>Exemple concret</strong> — Débit 4G faible dans un quartier : disponibilité OK, aucune alarme, mais <strong>PRB Utilization à 98 %</strong> aux heures de pointe → <strong>saturation</strong>. Solution : ajouter de la capacité / activer une fréquence / déployer un site.
     </div>
+  </section>
+
+  <!-- CALCULATEUR KPI -->
+  <section id="calc" class="section">
+    <h2 class="section-title">🧮 Calculateur de KPI</h2>
+    <p class="section-intro">Entre les compteurs bruts : le calculateur applique la formule, affiche le pourcentage et le compare au <strong>seuil cible</strong> (vert = OK, rouge = à traiter).</p>
+    <div class="calc-grid" id="calcGrid"></div>
+    <p class="note">💡 Ces formules sont celles qu'on retrouve derrière les KPI des outils OSS (NetAct Reporter, U2020 Performance Management).</p>
   </section>
 
   <!-- OPTIMISATION RADIO -->
@@ -584,6 +620,30 @@
     </div>
   </section>
 
+  <!-- FLASHCARDS -->
+  <section id="flash" class="section">
+    <h2 class="section-title">🃏 Flashcards de révision</h2>
+    <p class="section-intro">Mémorise activement : lis le recto, essaie de répondre, puis clique la carte pour voir le verso.</p>
+    <div class="flash-controls">
+      <div class="flash-deck-btns">
+        <button class="flash-deck active" data-deck="glossaire">📖 Glossaire</button>
+        <button class="flash-deck" data-deck="mml">⌨️ Commandes MML</button>
+      </div>
+      <button class="btn btn-ghost flash-shuffle" id="flashShuffle" style="color:var(--text);border-color:var(--border)">🔀 Mélanger</button>
+    </div>
+    <div class="flashcard" id="flashcard">
+      <div class="flashcard-inner">
+        <div class="flashcard-face flashcard-front" id="flashFront"></div>
+        <div class="flashcard-face flashcard-back" id="flashBack"></div>
+      </div>
+    </div>
+    <div class="flash-nav">
+      <button id="flashPrev">← Précédente</button>
+      <span id="flashCounter">1 / 1</span>
+      <button id="flashNext">Suivante →</button>
+    </div>
+  </section>
+
   <!-- PRÉPARATION ENTRETIEN -->
   <section id="entretien" class="section">
     <h2 class="section-title">🎤 Préparation à l'entretien</h2>
@@ -598,6 +658,18 @@
     <p class="section-intro">Le vocabulaire indispensable. Tape un terme pour filtrer.</p>
     <input type="search" id="glossarySearch" class="glossary-search" placeholder="🔍 Rechercher un terme (RRU, CSSR, VSWR…)">
     <div class="glossary-grid" id="glossaryGrid"></div>
+  </section>
+
+  <!-- RESSOURCES & PROGRESSION -->
+  <section id="ressources" class="section">
+    <h2 class="section-title">📚 Ressources & ma progression</h2>
+
+    <h3>📈 Ma progression</h3>
+    <div class="progress-dash" id="progressDash"></div>
+
+    <h3>🔗 Ressources d'apprentissage</h3>
+    <p class="section-intro">Des liens utiles pour aller plus loin (formations gratuites, références).</p>
+    <div class="resources-grid" id="resourcesGrid"></div>
   </section>
 
   <!-- CERTIFICATIONS -->

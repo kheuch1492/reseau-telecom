@@ -33,10 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  function markVisited(id) {
+    const visited = new Set(JSON.parse(localStorage.getItem('visited') || '[]'));
+    if (!visited.has(id)) {
+      visited.add(id);
+      localStorage.setItem('visited', JSON.stringify([...visited]));
+    }
+  }
+
   const spy = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
         navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+        markVisited(e.target.id);
       }
     });
   }, { rootMargin: '-30% 0px -60% 0px' });
@@ -564,7 +573,228 @@ document.addEventListener('DOMContentLoaded', () => {
         quizStartBtn.click();
         document.getElementById('quiz').scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
+      const best = parseInt(localStorage.getItem('quizBest') || '0');
+      if (score > best) localStorage.setItem('quizBest', String(score));
     }
+  }
+
+  /* ---------- Simulateur NOC (tri d'alarmes chronométré) ---------- */
+  if (typeof SIM_ALARMS !== 'undefined') {
+    const simStart = document.getElementById('simStart');
+    const simPlay = document.getElementById('simPlay');
+    const simResult = document.getElementById('simResult');
+    const simStartBtn = document.getElementById('simStartBtn');
+    const simAlarmsEl = document.getElementById('simAlarms');
+    const simOrderEl = document.getElementById('simOrder');
+    const simTimeEl = document.getElementById('simTime');
+    const simRoundEl = document.getElementById('simRound');
+    const simScoreEl = document.getElementById('simScore');
+    const simBest = document.getElementById('simBest');
+    const sevEmojiS = { critical: '🔴', major: '🟠', minor: '🟡' };
+    const TOTAL_ROUNDS = 3;
+    let round, score, errors, timer, t0, remaining;
+
+    function showBest() {
+      const b = localStorage.getItem('simBest');
+      simBest.textContent = b ? `🏅 Meilleur temps : ${b}s` : '';
+    }
+    showBest();
+
+    simStartBtn.addEventListener('click', () => {
+      round = 1; score = 0; errors = 0;
+      simStart.hidden = true; simResult.hidden = true; simPlay.hidden = false;
+      t0 = Date.now();
+      clearInterval(timer);
+      timer = setInterval(() => { simTimeEl.textContent = ((Date.now() - t0) / 1000).toFixed(1); }, 100);
+      startRound();
+    });
+
+    function startRound() {
+      simRoundEl.textContent = round;
+      simScoreEl.textContent = score;
+      simOrderEl.innerHTML = '';
+      // choisir 5 alarmes aléatoires
+      const pool = [...SIM_ALARMS].sort(() => Math.random() - 0.5).slice(0, 5);
+      remaining = [...pool].sort((a, b) => b.weight - a.weight); // ordre attendu
+      renderAlarms(pool);
+    }
+
+    function renderAlarms(list) {
+      simAlarmsEl.innerHTML = '';
+      list.forEach(a => {
+        const btn = document.createElement('button');
+        btn.className = 'sim-alarm';
+        btn.innerHTML = `<span class="sim-dot">${sevEmojiS[a.sev]}</span> ${a.name}`;
+        btn.addEventListener('click', () => pick(a, btn, list));
+        simAlarmsEl.appendChild(btn);
+      });
+    }
+
+    function pick(a, btn, list) {
+      const expected = remaining[0];
+      if (a.name === expected.name) {
+        score++;
+        simScoreEl.textContent = score;
+        remaining.shift();
+        const chip = document.createElement('span');
+        chip.className = 'sim-order-chip';
+        chip.textContent = `${sevEmojiS[a.sev]} ${a.name}`;
+        simOrderEl.appendChild(chip);
+        btn.remove();
+        if (remaining.length === 0) {
+          if (round < TOTAL_ROUNDS) { round++; startRound(); }
+          else endSim();
+        }
+      } else {
+        errors++;
+        btn.classList.add('flash-wrong');
+        setTimeout(() => btn.classList.remove('flash-wrong'), 300);
+      }
+    }
+
+    function endSim() {
+      clearInterval(timer);
+      const total = ((Date.now() - t0) / 1000).toFixed(1);
+      simPlay.hidden = true; simResult.hidden = false;
+      const prevBest = parseFloat(localStorage.getItem('simBest') || '99999');
+      let record = '';
+      if (parseFloat(total) < prevBest) { localStorage.setItem('simBest', total); record = '🎉 Nouveau record !'; }
+      simResult.innerHTML = `
+        <h3>Simulation terminée</h3>
+        <div class="sim-time-big">${total}s</div>
+        <p>✅ ${score} alarmes bien triées · ❌ ${errors} erreur(s) · ${TOTAL_ROUNDS} manches</p>
+        <p>${record || 'Continue à t&rsquo;entraîner pour battre ton record !'}</p>
+        <button class="btn btn-primary" id="simRetry">↺ Rejouer</button>`;
+      document.getElementById('simRetry').addEventListener('click', () => simStartBtn.click());
+      showBest();
+    }
+  }
+
+  /* ---------- Calculateur de KPI ---------- */
+  const calcGrid = document.getElementById('calcGrid');
+  if (calcGrid) {
+    const CALCS = [
+      { id: 'cssr', name: 'CSSR — Call Setup Success Rate', formula: '(établis / tentatives) × 100', a: 'Appels établis', b: 'Tentatives d\'appel', target: 98, dir: 'min', unit: '%', targetTxt: '> 98 %' },
+      { id: 'dcr', name: 'DCR — Drop Call Rate', formula: '(coupés / établis) × 100', a: 'Appels coupés', b: 'Appels établis', target: 2, dir: 'max', unit: '%', targetTxt: '< 2 %' },
+      { id: 'hosr', name: 'HOSR — Handover Success Rate', formula: '(réussis / tentés) × 100', a: 'Handovers réussis', b: 'Handovers tentés', target: 97, dir: 'min', unit: '%', targetTxt: '> 97 %' },
+      { id: 'avail', name: 'Availability — Disponibilité', formula: '(temps en service / total) × 100', a: 'Minutes en service', b: 'Minutes totales', target: 99.5, dir: 'min', unit: '%', targetTxt: '> 99,5 %' }
+    ];
+    calcGrid.innerHTML = CALCS.map(c => `
+      <div class="calc-card" data-id="${c.id}">
+        <h4>${c.name}</h4>
+        <div class="calc-formula">${c.formula} · cible ${c.targetTxt}</div>
+        <div class="calc-inputs">
+          <label>${c.a}<input type="number" min="0" data-role="a" placeholder="ex. 970"></label>
+          <label>${c.b}<input type="number" min="0" data-role="b" placeholder="ex. 1000"></label>
+        </div>
+        <div class="calc-result">
+          <div class="calc-value neutral" data-role="val">—</div>
+          <div class="calc-verdict" data-role="verdict">Entre les valeurs</div>
+          <div class="calc-target">Seuil : ${c.targetTxt}</div>
+        </div>
+      </div>`).join('');
+
+    CALCS.forEach(c => {
+      const card = calcGrid.querySelector(`[data-id="${c.id}"]`);
+      const inA = card.querySelector('[data-role="a"]');
+      const inB = card.querySelector('[data-role="b"]');
+      const val = card.querySelector('[data-role="val"]');
+      const verdict = card.querySelector('[data-role="verdict"]');
+      function compute() {
+        const a = parseFloat(inA.value), b = parseFloat(inB.value);
+        if (isNaN(a) || isNaN(b) || b <= 0) { val.textContent = '—'; val.className = 'calc-value neutral'; verdict.textContent = 'Entre les valeurs'; return; }
+        const pct = (a / b) * 100;
+        const ok = c.dir === 'min' ? pct >= c.target : pct <= c.target;
+        val.textContent = pct.toFixed(2) + c.unit;
+        val.className = 'calc-value ' + (ok ? 'good' : 'bad');
+        verdict.textContent = ok ? '✅ Conforme à la cible' : '❌ Hors cible — à traiter';
+      }
+      inA.addEventListener('input', compute);
+      inB.addEventListener('input', compute);
+    });
+  }
+
+  /* ---------- Flashcards ---------- */
+  const flashcard = document.getElementById('flashcard');
+  if (flashcard && typeof GLOSSARY !== 'undefined') {
+    const decks = {
+      glossaire: GLOSSARY.map(g => ({ front: g.term, back: g.def, hint: g.cat })),
+      mml: (typeof MML_DETAILED !== 'undefined' ? MML_DETAILED : []).map(m => ({ front: m.cmd, back: m.desc, hint: 'Commande MML' }))
+    };
+    const flashFront = document.getElementById('flashFront');
+    const flashBack = document.getElementById('flashBack');
+    const flashCounter = document.getElementById('flashCounter');
+    let deck = 'glossaire', cards = decks.glossaire.slice(), idx = 0;
+
+    function renderCard() {
+      flashcard.classList.remove('flipped');
+      const c = cards[idx];
+      flashFront.innerHTML = `<div class="fc-term">${c.front}</div><div class="fc-hint">${c.hint} · clique pour retourner</div>`;
+      flashBack.innerHTML = `<div class="fc-def">${c.back}</div>`;
+      flashCounter.textContent = `${idx + 1} / ${cards.length}`;
+    }
+    flashcard.addEventListener('click', () => flashcard.classList.toggle('flipped'));
+    document.getElementById('flashNext').addEventListener('click', () => { idx = (idx + 1) % cards.length; renderCard(); });
+    document.getElementById('flashPrev').addEventListener('click', () => { idx = (idx - 1 + cards.length) % cards.length; renderCard(); });
+    document.getElementById('flashShuffle').addEventListener('click', () => { cards.sort(() => Math.random() - 0.5); idx = 0; renderCard(); showToast('Cartes mélangées'); });
+    document.querySelectorAll('.flash-deck').forEach(b => {
+      b.addEventListener('click', () => {
+        document.querySelectorAll('.flash-deck').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        deck = b.dataset.deck;
+        cards = decks[deck].slice(); idx = 0; renderCard();
+      });
+    });
+    renderCard();
+  }
+
+  /* ---------- Ressources & progression ---------- */
+  const resourcesGrid = document.getElementById('resourcesGrid');
+  if (resourcesGrid && typeof RESOURCES !== 'undefined') {
+    resourcesGrid.innerHTML = RESOURCES.map(r => `
+      <a class="res-card" href="${r.url}" target="_blank" rel="noopener noreferrer">
+        <span class="res-cat">${r.cat}</span>
+        <h4>${r.title}</h4>
+        <p>${r.desc}</p>
+        <span class="res-link">${r.url} ↗</span>
+      </a>`).join('');
+  }
+
+  const progressDash = document.getElementById('progressDash');
+  if (progressDash) {
+    function renderProgress() {
+      const totalSections = document.querySelectorAll('.section').length;
+      const visited = JSON.parse(localStorage.getItem('visited') || '[]').length;
+      const pct = Math.round(visited / totalSections * 100);
+      const quizBest = localStorage.getItem('quizBest');
+      const quizTotal = (typeof QUIZ !== 'undefined') ? QUIZ.length : 12;
+      const simBest = localStorage.getItem('simBest');
+      progressDash.innerHTML = `
+        <div class="prog-card">
+          <div class="prog-num">${pct}%</div>
+          <div class="prog-label">Sections explorées (${visited}/${totalSections})</div>
+          <div class="prog-bar"><div class="prog-bar-fill" style="width:${pct}%"></div></div>
+        </div>
+        <div class="prog-card">
+          <div class="prog-num">${quizBest ? quizBest + '/' + quizTotal : '—'}</div>
+          <div class="prog-label">Meilleur score au quiz</div>
+        </div>
+        <div class="prog-card">
+          <div class="prog-num">${simBest ? simBest + 's' : '—'}</div>
+          <div class="prog-label">Meilleur temps simulateur</div>
+        </div>`;
+      const rst = document.createElement('button');
+      rst.className = 'btn btn-ghost prog-reset';
+      rst.style.cssText = 'color:var(--text);border-color:var(--border)';
+      rst.textContent = '↺ Réinitialiser ma progression';
+      rst.addEventListener('click', () => {
+        ['visited', 'quizBest', 'simBest'].forEach(k => localStorage.removeItem(k));
+        renderProgress(); showToast('Progression réinitialisée');
+      });
+      progressDash.appendChild(rst);
+    }
+    renderProgress();
+    document.querySelector('.nav-link[href="#ressources"]')?.addEventListener('click', () => setTimeout(renderProgress, 300));
   }
 
 });

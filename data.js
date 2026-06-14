@@ -818,3 +818,35 @@ const INTERVIEW = [
     a: "Ce sont deux OSS (plateformes de supervision) : NetAct est celui de Nokia, U2020 celui de Huawei. Le concept est identique — alarmes, KPI, configuration — mais NetAct est plutôt graphique (CM Editor) tandis qu'U2020 utilise beaucoup les commandes MML en texte. Huawei est très présent en Afrique et en Asie."
   }
 ];
+
+/* ============================================================
+   Simulateur NOC — alarmes à trier par priorité
+   weight élevé = à traiter en premier (priorité haute)
+   ============================================================ */
+const SIM_ALARMS = [
+  { name: "Site entier Unavailable", sev: "critical", weight: 100 },
+  { name: "Transmission Link Failure (plusieurs sites)", sev: "critical", weight: 95 },
+  { name: "Power / Mains Failure (batterie faible)", sev: "critical", weight: 90 },
+  { name: "S1 / SCTP Link Failure (un site)", sev: "critical", weight: 85 },
+  { name: "Board / Card Fault", sev: "critical", weight: 80 },
+  { name: "RRU Fault (un secteur down)", sev: "major", weight: 70 },
+  { name: "VSWR Alarm (Major)", sev: "major", weight: 60 },
+  { name: "Clock / GPS Sync Lost", sev: "major", weight: 55 },
+  { name: "High Temperature", sev: "major", weight: 50 },
+  { name: "Battery Fault (secteur OK)", sev: "major", weight: 45 },
+  { name: "Cell Congestion (heure de pointe)", sev: "minor", weight: 30 },
+  { name: "License Expiry Warning", sev: "minor", weight: 20 },
+  { name: "Door / External Alarm", sev: "minor", weight: 15 }
+];
+
+/* ============================================================
+   Ressources d'apprentissage (liens externes)
+   ============================================================ */
+const RESOURCES = [
+  { cat: "Huawei", title: "Huawei Talent Online (iLearningX)", url: "https://e.huawei.com/en/talent/", desc: "Cours et certifications gratuits, dont HCIA-5G. Le meilleur point d'entrée." },
+  { cat: "Nokia", title: "Nokia — Learning & 5G", url: "https://www.nokia.com/", desc: "Formations Nokia et certifications Bell Labs 5G." },
+  { cat: "BI / Data", title: "Microsoft Learn — PL-300 (Power BI)", url: "https://learn.microsoft.com/credentials/certifications/power-bi-data-analyst-associate/", desc: "Certification Power BI Data Analyst — valorise ton profil BI." },
+  { cat: "Standards", title: "3GPP — spécifications mobiles", url: "https://www.3gpp.org/", desc: "L'organisme qui définit les normes 2G→5G. Référence technique." },
+  { cat: "Planification", title: "Forsk — Atoll", url: "https://www.forsk.com/atoll-overview", desc: "L'outil de planification radio le plus répandu." },
+  { cat: "Data", title: "Python — pandas", url: "https://pandas.pydata.org/docs/", desc: "Pour automatiser l'analyse des KPI et logs réseau." }
+];
