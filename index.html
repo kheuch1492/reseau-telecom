@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Réseau Télécom — Guide d'analyse & diagnostic</title>
 <meta name="description" content="Guide de référence pour l'analyse de réseau télécom : métier, outils NetAct/U2020, commandes MML, alarmes, arbres de décision, KPI et certifications.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#0d47a1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="RéseauTélécom">
+<link rel="apple-touch-icon" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -44,6 +50,7 @@
     <a href="#kpi" class="nav-link">📊 KPI essentiels</a>
     <a href="#calc" class="nav-link">🧮 Calculateur KPI</a>
     <a href="#optim" class="nav-link">🎚️ Optimisation radio</a>
+    <a href="#drive" class="nav-link">🚗 Drive Test</a>
     <a href="#cas" class="nav-link">📐 Cas pratiques</a>
     <a href="#routine" class="nav-link">📋 Routine & checklist</a>
     <a href="#quiz" class="nav-link">🧠 Quiz de révision</a>
@@ -547,6 +554,65 @@
     <div class="optim-grid" id="optimGrid"></div>
     <div class="callout">
       <strong>💡 Règle d'or :</strong> on ne modifie jamais à l'aveugle. On part d'un <strong>KPI dégradé</strong> (ex. DCR élevé, SINR faible, PRB saturé), on choisit le levier adapté, puis on <strong>mesure l'effet</strong> (KPI + drive test) avant/après.
+    </div>
+  </section>
+
+  <!-- DRIVE TEST -->
+  <section id="drive" class="section">
+    <h2 class="section-title">🚗 Drive Test — la mesure terrain</h2>
+    <p class="section-intro">Le <strong>Drive Test</strong> (en voiture) ou <strong>Walk Test</strong> (à pied) mesure ce que vit <strong>réellement l'abonné</strong> sur le terrain. Il sert à valider la couverture, confirmer les KPI et diagnostiquer les plaintes.</p>
+
+    <div class="drive-why">
+      <div class="drive-why-item"><strong>✅ Valider</strong><p>Vérifier la couverture après un nouveau site ou une optimisation.</p></div>
+      <div class="drive-why-item"><strong>🔎 Diagnostiquer</strong><p>Comprendre une plainte client là où les KPI ne suffisent pas.</p></div>
+      <div class="drive-why-item"><strong>📊 Confirmer</strong><p>Croiser la mesure terrain avec les compteurs de l'OSS.</p></div>
+    </div>
+
+    <h3>Ce qu'on mesure</h3>
+    <table class="data-table">
+      <thead><tr><th>Mesure</th><th>Signification</th><th>Ce qu'elle indique</th></tr></thead>
+      <tbody>
+        <tr><td><strong>RSRP</strong></td><td>Reference Signal Received Power (dBm)</td><td>Niveau de <strong>couverture</strong> (puissance reçue)</td></tr>
+        <tr><td><strong>RSRQ</strong></td><td>Reference Signal Received Quality (dB)</td><td>Qualité du signal de référence</td></tr>
+        <tr><td><strong>SINR</strong></td><td>Signal to Interference + Noise Ratio (dB)</td><td><strong>Propreté</strong> du signal (interférences)</td></tr>
+        <tr><td><strong>Throughput</strong></td><td>Débit DL/UL mesuré (Mbps)</td><td>Expérience data réelle</td></tr>
+        <tr><td><strong>CSSR / DCR</strong></td><td>Réussite / coupure d'appel terrain</td><td>Qualité voix vécue</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Lire une carte de couverture</h3>
+    <p class="section-intro">Les mesures sont affichées en couleur sur une carte (chaque point = une mesure géolocalisée). On repère vite les zones à problème.</p>
+
+    <div class="scale-block">
+      <div class="scale-label">📶 RSRP (couverture)</div>
+      <div class="scale">
+        <span class="scale-seg" style="background:#2ea043">≥ -85 dBm<br>Excellent</span>
+        <span class="scale-seg" style="background:#9acd32">-85 à -95<br>Bon</span>
+        <span class="scale-seg" style="background:#fdd835;color:#333">-95 à -105<br>Moyen</span>
+        <span class="scale-seg" style="background:#fb8c00">-105 à -115<br>Faible</span>
+        <span class="scale-seg" style="background:#e53935">< -115 dBm<br>Mauvais</span>
+      </div>
+    </div>
+    <div class="scale-block">
+      <div class="scale-label">✨ SINR (qualité)</div>
+      <div class="scale">
+        <span class="scale-seg" style="background:#2ea043">≥ 20 dB<br>Excellent</span>
+        <span class="scale-seg" style="background:#9acd32">13 à 20<br>Bon</span>
+        <span class="scale-seg" style="background:#fdd835;color:#333">0 à 13<br>Moyen</span>
+        <span class="scale-seg" style="background:#e53935">< 0 dB<br>Mauvais</span>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>💡 Lecture croisée :</strong> un <strong>RSRP correct mais SINR faible</strong> = bonne puissance mais <strong>interférences</strong> (à traiter par fréquences/tilt). Un <strong>RSRP faible</strong> = trou de <strong>couverture</strong> (puissance, azimut, nouveau site).
+    </div>
+
+    <h3>Les outils de Drive Test</h3>
+    <div class="tag-list">
+      <span class="tag">TEMS (Infovista)</span>
+      <span class="tag">Nemo (Keysight)</span>
+      <span class="tag">XCAL / XCAP (Accuver)</span>
+      <span class="tag">ROMES (Rohde &amp; Schwarz)</span>
     </div>
   </section>
 

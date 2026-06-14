@@ -1,0 +1,19 @@
+{
+  "name": "Réseau Télécom — Guide d'analyse & diagnostic",
+  "short_name": "RéseauTélécom",
+  "description": "Guide de référence pour l'analyse et le diagnostic de réseau télécom.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f1b2d",
+  "theme_color": "#0d47a1",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

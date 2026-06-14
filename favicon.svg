@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#0d47a1"/>
+  <!-- pylône -->
+  <path d="M32 18 L24 50 H40 Z" fill="none" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>
+  <line x1="27" y1="38" x2="37" y2="38" stroke="#fff" stroke-width="2"/>
+  <line x1="29" y1="30" x2="35" y2="30" stroke="#fff" stroke-width="2"/>
+  <!-- ondes -->
+  <path d="M22 22 a14 14 0 0 0 0 14" fill="none" stroke="#42a5f5" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M42 22 a14 14 0 0 1 0 14" fill="none" stroke="#42a5f5" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M17 18 a21 21 0 0 0 0 22" fill="none" stroke="#90caf9" stroke-width="2" stroke-linecap="round"/>
+  <path d="M47 18 a21 21 0 0 1 0 22" fill="none" stroke="#90caf9" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="32" cy="18" r="3.5" fill="#fff"/>
+</svg>

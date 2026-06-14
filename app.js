@@ -5,6 +5,13 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* ---------- Service Worker (mode hors-ligne / PWA) ---------- */
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => { /* ignore si non dispo */ });
+    });
+  }
+
   /* ---------- Menu mobile ---------- */
   const sidebar = document.getElementById('sidebar');
   const menuToggle = document.getElementById('menuToggle');
