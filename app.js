@@ -1,0 +1,570 @@
+/* ============================================================
+   Logique du site — navigation, recherche, filtres,
+   commandes MML copiables, arbres de décision interactifs.
+   ============================================================ */
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ---------- Menu mobile ---------- */
+  const sidebar = document.getElementById('sidebar');
+  const menuToggle = document.getElementById('menuToggle');
+  menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+
+  /* ---------- Thème sombre ---------- */
+  const themeToggle = document.getElementById('themeToggle');
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark');
+    themeToggle.textContent = '☀️ Mode clair';
+  }
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    const dark = document.body.classList.contains('dark');
+    themeToggle.textContent = dark ? '☀️ Mode clair' : '🌙 Mode sombre';
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  });
+
+  /* ---------- Navigation : scroll-spy + clic ---------- */
+  const navLinks = document.querySelectorAll('.nav-link');
+  const sections = document.querySelectorAll('.section');
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      if (window.innerWidth <= 900) sidebar.classList.remove('open');
+    });
+  });
+
+  const spy = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => spy.observe(s));
+
+  /* ---------- Recherche globale ---------- */
+  const searchInput = document.getElementById('searchInput');
+  const searchResults = document.getElementById('searchResults');
+
+  searchInput.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    if (!q) { searchResults.classList.remove('show'); return; }
+    const matches = SEARCH_INDEX.filter(item => item.t.toLowerCase().includes(q) || item.c.toLowerCase().includes(q));
+    if (matches.length === 0) {
+      searchResults.innerHTML = '<div class="sr-empty">Aucun résultat</div>';
+    } else {
+      searchResults.innerHTML = matches.map(m =>
+        `<a href="${m.h}"><span class="sr-cat">${m.c}</span><br>${m.t}</a>`
+      ).join('');
+    }
+    searchResults.classList.add('show');
+  });
+
+  searchResults.addEventListener('click', e => {
+    if (e.target.closest('a')) {
+      searchResults.classList.remove('show');
+      searchInput.value = '';
+    }
+  });
+  document.addEventListener('click', e => {
+    if (!e.target.closest('.search-box')) searchResults.classList.remove('show');
+  });
+
+  /* ---------- Toast ---------- */
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+  }
+
+  /* ---------- Copie des commandes MML ---------- */
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cmd = btn.dataset.copy;
+      navigator.clipboard.writeText(cmd).then(
+        () => showToast('Copié : ' + cmd),
+        () => showToast('Copie impossible')
+      );
+    });
+  });
+
+  /* ---------- Filtre MML (catégorie + recherche) ---------- */
+  const mmlRows = document.querySelectorAll('#mmlTable tbody tr');
+  const mmlSearch = document.getElementById('mmlSearch');
+  const fbtns = document.querySelectorAll('.fbtn');
+  let mmlCat = 'all';
+
+  function applyMmlFilter() {
+    const q = mmlSearch.value.trim().toLowerCase();
+    mmlRows.forEach(row => {
+      const matchCat = mmlCat === 'all' || row.dataset.cat === mmlCat;
+      const matchText = row.textContent.toLowerCase().includes(q);
+      row.style.display = (matchCat && matchText) ? '' : 'none';
+    });
+  }
+  fbtns.forEach(b => b.addEventListener('click', () => {
+    fbtns.forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    mmlCat = b.dataset.cat;
+    applyMmlFilter();
+  }));
+  mmlSearch.addEventListener('input', applyMmlFilter);
+
+  /* ---------- Filtre alarmes par sévérité ---------- */
+  const alarmCards = document.querySelectorAll('.alarm-card');
+  document.querySelectorAll('.sbtn').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('.sbtn').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      const sev = b.dataset.sev;
+      alarmCards.forEach(c => {
+        c.classList.toggle('hidden', !(sev === 'all' || c.dataset.sev === sev));
+      });
+    });
+  });
+
+  /* ---------- Arbres de décision interactifs ---------- */
+  const picker = document.getElementById('treePicker');
+  const player = document.getElementById('treePlayer');
+  const nodeEl = document.getElementById('treeNode');
+  const breadcrumb = document.getElementById('treeBreadcrumb');
+  const restartBtn = document.getElementById('treeRestart');
+  const sevEmoji = { critical: '🔴', major: '🟠', minor: '🟡' };
+  let currentTree = null;
+  let path = [];
+
+  // Construire les boutons de choix d'arbre
+  DECISION_TREES.forEach(tree => {
+    const btn = document.createElement('button');
+    btn.className = 'tree-pick-btn';
+    btn.style.borderLeftColor =
+      tree.severity === 'critical' ? 'var(--critical)' :
+      tree.severity === 'major' ? 'var(--major)' : 'var(--minor)';
+    btn.innerHTML = `<strong>${sevEmoji[tree.severity]} ${tree.title}</strong><span>${tree.subtitle}</span>`;
+    btn.addEventListener('click', () => startTree(tree));
+    picker.appendChild(btn);
+  });
+
+  function startTree(tree) {
+    currentTree = tree;
+    path = [];
+    picker.hidden = true;
+    player.hidden = false;
+    renderNode(tree.start);
+    player.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function renderNode(nodeId) {
+    const node = currentTree.nodes[nodeId];
+    renderBreadcrumb();
+
+    if (node.result) {
+      nodeEl.innerHTML = `
+        <div class="tree-result cause">
+          <span class="res-label res-cause">🎯 Cause racine identifiée</span>
+          <h4>${node.cause}</h4>
+          <div class="res-action">
+            <span class="res-label res-action-label">✅ Action à mener</span>
+            <p>${node.action}</p>
+          </div>
+          <span class="res-escalade">👥 Escalade : ${node.escalade}</span>
+        </div>`;
+      return;
+    }
+
+    const opts = node.options.map((o, i) =>
+      `<button class="tree-opt" data-next="${o.next}" data-label="${o.label.replace(/"/g, '&quot;')}">${o.label}</button>`
+    ).join('');
+    nodeEl.innerHTML = `
+      <div class="tree-question">❓ ${node.question}</div>
+      <div class="tree-options">${opts}</div>`;
+
+    nodeEl.querySelectorAll('.tree-opt').forEach(b => {
+      b.addEventListener('click', () => {
+        path.push(b.dataset.label);
+        renderNode(b.dataset.next);
+      });
+    });
+  }
+
+  function renderBreadcrumb() {
+    const crumbs = [`<span class="crumb">${sevEmoji[currentTree.severity]} ${currentTree.title}</span>`]
+      .concat(path.map(p => `<span class="crumb">${p}</span>`));
+    breadcrumb.innerHTML = crumbs.join('');
+  }
+
+  restartBtn.addEventListener('click', () => {
+    player.hidden = true;
+    picker.hidden = false;
+    picker.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  /* ---------- Stepper : processus de résolution d'incident ---------- */
+  const stepper = document.getElementById('stepper');
+  const stepDetail = document.getElementById('stepDetail');
+  if (stepper && typeof INCIDENT_PROCESS !== 'undefined') {
+    let activeStep = 0;
+
+    INCIDENT_PROCESS.forEach((s, i) => {
+      const b = document.createElement('button');
+      b.className = 'step-btn' + (i === 0 ? ' active' : '');
+      b.innerHTML = `<span class="step-ico">${s.icon}</span><span class="step-num">ÉTAPE ${s.phase}</span><span class="step-name">${s.title}</span>`;
+      b.addEventListener('click', () => { activeStep = i; renderStep(); });
+      stepper.appendChild(b);
+    });
+
+    function renderStep() {
+      const s = INCIDENT_PROCESS[activeStep];
+      stepper.querySelectorAll('.step-btn').forEach((b, i) => b.classList.toggle('active', i === activeStep));
+      stepDetail.innerHTML = `
+        <h3>${s.icon} Étape ${s.phase} — ${s.title}</h3>
+        <p class="step-goal">🎯 ${s.goal}</p>
+        <h5>Actions</h5>
+        <ul>${s.actions.map(a => `<li>${a}</li>`).join('')}</ul>
+        <div class="step-meta">
+          <div class="step-meta-item">
+            <div class="smi-label">🧰 Outils</div>
+            <div class="step-tools">${s.tools.map(t => `<span class="step-tool">${t}</span>`).join('')}</div>
+          </div>
+          <div class="step-meta-item">
+            <div class="smi-label">👥 Acteurs</div>
+            <div class="smi-val">${s.actors}</div>
+          </div>
+          <div class="step-meta-item">
+            <div class="smi-label">⏱️ Repère / SLA</div>
+            <div class="smi-val">${s.sla}</div>
+          </div>
+        </div>
+        <div class="step-output">➡️ <strong>Résultat :</strong> ${s.output}</div>
+        <div class="step-nav">
+          <button id="stepPrev" ${activeStep === 0 ? 'disabled' : ''}>← Étape précédente</button>
+          <button id="stepNext" ${activeStep === INCIDENT_PROCESS.length - 1 ? 'disabled' : ''}>Étape suivante →</button>
+        </div>`;
+      const prev = document.getElementById('stepPrev');
+      const next = document.getElementById('stepNext');
+      if (prev) prev.addEventListener('click', () => { if (activeStep > 0) { activeStep--; renderStep(); } });
+      if (next) next.addEventListener('click', () => { if (activeStep < INCIDENT_PROCESS.length - 1) { activeStep++; renderStep(); } });
+    }
+    renderStep();
+  }
+
+  /* ---------- Niveaux d'escalade ---------- */
+  const escEl = document.getElementById('escalation');
+  if (escEl && typeof ESCALATION !== 'undefined') {
+    escEl.innerHTML = ESCALATION.map(e => `
+      <div class="esc-card">
+        <span class="esc-lvl">${e.lvl}</span>
+        <h4>${e.name}</h4>
+        <p>${e.role}</p>
+        <div class="esc-ex"><strong>Ex :</strong> ${e.examples}</div>
+      </div>`).join('');
+  }
+
+  /* ---------- Glossaire ---------- */
+  const glossGrid = document.getElementById('glossaryGrid');
+  const glossSearch = document.getElementById('glossarySearch');
+  if (glossGrid && typeof GLOSSARY !== 'undefined') {
+    glossGrid.innerHTML = GLOSSARY.map(g => `
+      <div class="gloss-item" data-text="${(g.term + ' ' + g.def + ' ' + g.cat).toLowerCase()}">
+        <span class="gloss-term">${g.term}</span><span class="gloss-cat">${g.cat}</span>
+        <div class="gloss-def">${g.def}</div>
+      </div>`).join('') + '<div class="gloss-empty" id="glossEmpty" style="display:none">Aucun terme trouvé.</div>';
+
+    const glossItems = glossGrid.querySelectorAll('.gloss-item');
+    const glossEmpty = document.getElementById('glossEmpty');
+    glossSearch.addEventListener('input', () => {
+      const q = glossSearch.value.trim().toLowerCase();
+      let visible = 0;
+      glossItems.forEach(it => {
+        const show = it.dataset.text.includes(q);
+        it.classList.toggle('hidden', !show);
+        if (show) visible++;
+      });
+      glossEmpty.style.display = visible === 0 ? 'block' : 'none';
+    });
+  }
+
+  /* ---------- Checklist (persistance localStorage) ---------- */
+  const checklists = document.querySelectorAll('.checklist');
+  checklists.forEach(list => {
+    const key = 'cl-' + list.dataset.key;
+    const saved = JSON.parse(localStorage.getItem(key) || '[]');
+    const boxes = list.querySelectorAll('input[type="checkbox"]');
+    boxes.forEach((box, i) => {
+      if (saved[i]) box.checked = true;
+      box.addEventListener('change', () => {
+        const state = Array.from(boxes).map(b => b.checked);
+        localStorage.setItem(key, JSON.stringify(state));
+      });
+    });
+  });
+  const resetCl = document.getElementById('resetChecklist');
+  if (resetCl) resetCl.addEventListener('click', () => {
+    checklists.forEach(list => {
+      localStorage.removeItem('cl-' + list.dataset.key);
+      list.querySelectorAll('input[type="checkbox"]').forEach(b => b.checked = false);
+    });
+    showToast('Cases réinitialisées');
+  });
+
+  /* ---------- Cas pratiques (accordéon) ---------- */
+  const casesEl = document.getElementById('cases');
+  if (casesEl && typeof CASE_STUDIES !== 'undefined') {
+    const kpiLines = arr => arr.map(x =>
+      `<div class="kpi-line"><span>${x.k}</span><span class="kv ${x.ok ? 'good' : 'bad'}">${x.v}</span></div>`
+    ).join('');
+
+    casesEl.innerHTML = CASE_STUDIES.map(c => `
+      <div class="case-card ${c.sev}" data-id="${c.id}">
+        <div class="case-head">
+          <span class="case-tag">${c.tag}</span>
+          <span class="case-title">${c.title}</span>
+          <span class="case-toggle">▼</span>
+        </div>
+        <div class="case-body">
+          <div class="case-section-label">📍 Contexte</div>
+          <p class="case-context">${c.context}</p>
+          <div class="case-section-label">⚠️ Symptôme</div>
+          <div class="case-symptom">${c.symptom}</div>
+          <div class="case-section-label">📊 KPI avant / après</div>
+          <div class="kpi-compare">
+            <div class="kpi-col before"><h6>🔴 Avant</h6>${kpiLines(c.kpisBefore)}</div>
+            <div class="kpi-col after"><h6>🟢 Après</h6>${kpiLines(c.kpisAfter)}</div>
+          </div>
+          <div class="case-section-label">🔍 Démarche de diagnostic</div>
+          <ul class="case-steps">${c.steps.map(s => `<li>${s}</li>`).join('')}</ul>
+          <div class="case-section-label">🎯 Cause racine</div>
+          <div class="case-cause">${c.cause}</div>
+          <div class="case-section-label">✅ Action</div>
+          <div class="case-action">${c.action}</div>
+          <div class="case-footer">
+            <span class="case-chip">⏱️ ${c.duration}</span>
+            <span class="case-chip">👥 ${c.escalade}</span>
+          </div>
+        </div>
+      </div>`).join('');
+
+    casesEl.querySelectorAll('.case-head').forEach(head => {
+      head.addEventListener('click', () => head.parentElement.classList.toggle('open'));
+    });
+  }
+
+  /* ---------- Générations & 5G ---------- */
+  const genBody = document.querySelector('#genTable tbody');
+  if (genBody && typeof GENERATIONS !== 'undefined') {
+    const cls = { '2G': 'gen-2g', '3G': 'gen-3g', '4G / LTE': 'gen-4g', '5G': 'gen-5g' };
+    genBody.innerHTML = GENERATIONS.map(g => `
+      <tr>
+        <td><span class="gen-badge ${cls[g.gen] || 'gen-4g'}">${g.gen}</span></td>
+        <td>${g.years}</td><td>${g.usage}</td><td>${g.debit}</td>
+        <td><code>${g.station}</code></td><td>${g.core}</td>
+      </tr>`).join('');
+    const note = document.getElementById('genNote');
+    if (note) note.innerHTML = '💡 ' + GENERATIONS.map(g => `<strong>${g.gen}</strong> : ${g.note}`).join(' · ');
+  }
+  const fivegGrid = document.getElementById('fivegGrid');
+  if (fivegGrid && typeof FIVEG_FOCUS !== 'undefined') {
+    fivegGrid.innerHTML = FIVEG_FOCUS.map(f => `
+      <div class="fiveg-item"><h4>${f.t}</h4><p>${f.d}</p></div>`).join('');
+  }
+
+  /* ---------- Commandes MML détaillées ---------- */
+  const mmlDetailed = document.getElementById('mmlDetailed');
+  if (mmlDetailed && typeof MML_DETAILED !== 'undefined') {
+    mmlDetailed.innerHTML = MML_DETAILED.map(m => `
+      <div class="mml-d-item">
+        <div class="mml-d-cmd"><code>${m.cmd}</code><button class="copy-btn" data-copy="${m.cmd.replace(/"/g, '&quot;')}">📋</button></div>
+        <div class="mml-d-desc">${m.desc}</div>
+        <span class="mml-d-out-label">Exemple de sortie</span>
+        <div class="mml-d-out">${m.output}</div>
+      </div>`).join('');
+    mmlDetailed.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        navigator.clipboard.writeText(btn.dataset.copy).then(
+          () => showToast('Copié : ' + btn.dataset.copy),
+          () => showToast('Copie impossible')
+        );
+      });
+    });
+  }
+
+  /* ---------- Correspondance alarmes Huawei/Nokia ---------- */
+  const mappingBody = document.querySelector('#mappingTable tbody');
+  if (mappingBody && typeof ALARM_MAPPING !== 'undefined') {
+    mappingBody.innerHTML = ALARM_MAPPING.map(m => `
+      <tr>
+        <td><strong>${m.type}</strong></td>
+        <td>${m.huawei}</td><td>${m.nokia}</td>
+        <td><span class="map-sev ${m.sev}">${m.sev}</span></td>
+      </tr>`).join('');
+  }
+
+  /* ---------- KPI enrichi ---------- */
+  const kpiBody = document.querySelector('#kpiTable tbody');
+  if (kpiBody && typeof KPI_LIST !== 'undefined') {
+    kpiBody.innerHTML = KPI_LIST.map(k => `
+      <tr>
+        <td><strong>${k.kpi}</strong></td>
+        <td>${k.name}</td>
+        <td><code>${k.formula}</code></td>
+        <td><span class="kpi-target">${k.target}</span></td>
+        <td>${k.reveals}</td>
+      </tr>`).join('');
+  }
+
+  /* ---------- Optimisation radio ---------- */
+  const optimGrid = document.getElementById('optimGrid');
+  if (optimGrid && typeof OPTIM !== 'undefined') {
+    optimGrid.innerHTML = OPTIM.map(o => `
+      <div class="optim-card">
+        <h4>🎚️ ${o.lever}</h4>
+        <div class="optim-row"><span class="or-label">Quoi :</span> ${o.what}</div>
+        <div class="optim-row"><span class="or-label">Quand :</span> ${o.when}</div>
+        <div class="optim-row risk"><span class="or-label">⚠️ Risque :</span> ${o.risk}</div>
+      </div>`).join('');
+  }
+
+  /* ---------- Préparation entretien ---------- */
+  const ivList = document.getElementById('interviewList');
+  const ivFilter = document.getElementById('interviewFilter');
+  if (ivList && typeof INTERVIEW !== 'undefined') {
+    const cats = ['Toutes', ...Array.from(new Set(INTERVIEW.map(i => i.cat)))];
+    ivFilter.innerHTML = cats.map((c, i) =>
+      `<button class="iv-fbtn ${i === 0 ? 'active' : ''}" data-cat="${c}">${c}</button>`
+    ).join('');
+
+    ivList.innerHTML = INTERVIEW.map(i => `
+      <div class="iv-item" data-cat="${i.cat}">
+        <div class="iv-q">
+          <span class="iv-cat">${i.cat}</span>
+          <span class="iv-qtext">${i.q}</span>
+          <span class="iv-toggle">▼</span>
+        </div>
+        <div class="iv-a">
+          <div class="iv-a-inner"><span class="iv-a-label">💬 Réponse modèle</span>${i.a}</div>
+        </div>
+      </div>`).join('');
+
+    ivList.querySelectorAll('.iv-q').forEach(q => {
+      q.addEventListener('click', () => q.parentElement.classList.toggle('open'));
+    });
+    ivFilter.querySelectorAll('.iv-fbtn').forEach(b => {
+      b.addEventListener('click', () => {
+        ivFilter.querySelectorAll('.iv-fbtn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        const c = b.dataset.cat;
+        ivList.querySelectorAll('.iv-item').forEach(it => {
+          it.classList.toggle('hidden', !(c === 'Toutes' || it.dataset.cat === c));
+        });
+      });
+    });
+  }
+
+  /* ---------- Impression / PDF d'une section ---------- */
+  document.querySelectorAll('.print-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = document.getElementById(btn.dataset.print);
+      if (!target) { window.print(); return; }
+      document.body.classList.add('printing');
+      target.classList.add('print-target');
+      window.print();
+      setTimeout(() => {
+        document.body.classList.remove('printing');
+        target.classList.remove('print-target');
+      }, 500);
+    });
+  });
+
+  /* ---------- Quiz de révision ---------- */
+  if (typeof QUIZ !== 'undefined') {
+    const quizStart = document.getElementById('quizStart');
+    const quizPlay = document.getElementById('quizPlay');
+    const quizResult = document.getElementById('quizResult');
+    const quizCount = document.getElementById('quizCount');
+    const quizStartBtn = document.getElementById('quizStartBtn');
+    const quizBar = document.getElementById('quizBar');
+    const quizPos = document.getElementById('quizPos');
+    const quizScore = document.getElementById('quizScore');
+    const quizQuestion = document.getElementById('quizQuestion');
+    const quizOptions = document.getElementById('quizOptions');
+    const quizFeedback = document.getElementById('quizFeedback');
+    const quizNext = document.getElementById('quizNext');
+
+    quizCount.textContent = QUIZ.length;
+    let qIndex = 0, score = 0, answered = false;
+
+    quizStartBtn.addEventListener('click', () => {
+      qIndex = 0; score = 0;
+      quizStart.hidden = true;
+      quizResult.hidden = true;
+      quizPlay.hidden = false;
+      renderQuestion();
+    });
+
+    function renderQuestion() {
+      answered = false;
+      const item = QUIZ[qIndex];
+      quizBar.style.width = ((qIndex) / QUIZ.length * 100) + '%';
+      quizPos.textContent = `Question ${qIndex + 1} / ${QUIZ.length}`;
+      quizScore.textContent = `Score : ${score}`;
+      quizQuestion.textContent = item.q;
+      quizFeedback.hidden = true;
+      quizNext.hidden = true;
+      quizOptions.innerHTML = item.options.map((o, i) =>
+        `<button class="quiz-opt" data-i="${i}">${o}</button>`
+      ).join('');
+      quizOptions.querySelectorAll('.quiz-opt').forEach(btn => {
+        btn.addEventListener('click', () => selectAnswer(parseInt(btn.dataset.i)));
+      });
+    }
+
+    function selectAnswer(i) {
+      if (answered) return;
+      answered = true;
+      const item = QUIZ[qIndex];
+      const opts = quizOptions.querySelectorAll('.quiz-opt');
+      opts.forEach((b, idx) => {
+        b.disabled = true;
+        if (idx === item.correct) b.classList.add('correct');
+        else if (idx === i) b.classList.add('wrong');
+      });
+      const ok = i === item.correct;
+      if (ok) score++;
+      quizScore.textContent = `Score : ${score}`;
+      quizFeedback.className = 'quiz-feedback ' + (ok ? 'ok' : 'ko');
+      quizFeedback.innerHTML = (ok ? '✅ <strong>Correct !</strong> ' : '❌ <strong>Incorrect.</strong> ') + item.explain;
+      quizFeedback.hidden = false;
+      quizNext.hidden = false;
+      quizNext.textContent = (qIndex === QUIZ.length - 1) ? 'Voir mon résultat 🏁' : 'Question suivante →';
+    }
+
+    quizNext.addEventListener('click', () => {
+      if (qIndex < QUIZ.length - 1) { qIndex++; renderQuestion(); }
+      else showResult();
+    });
+
+    function showResult() {
+      quizPlay.hidden = true;
+      quizResult.hidden = false;
+      const pct = Math.round(score / QUIZ.length * 100);
+      let badge, label, msg;
+      if (pct >= 80) { badge = 'gold'; label = '🏆 Excellent'; msg = "Tu maîtrises les bases — prêt pour aller plus loin (HCIP) !"; }
+      else if (pct >= 50) { badge = 'silver'; label = '👍 Bien'; msg = "Bonne base ! Revois les sections où tu as hésité."; }
+      else { badge = 'bronze'; label = '📚 À revoir'; msg = "Reprends les sections Alarmes, MML et Processus, puis retente."; }
+      quizResult.innerHTML = `
+        <h3>Résultat du quiz</h3>
+        <div class="quiz-score-big">${score}/${QUIZ.length}</div>
+        <div class="quiz-badge ${badge}">${label} — ${pct}%</div>
+        <p>${msg}</p>
+        <button class="btn btn-primary" id="quizRetry">↺ Recommencer</button>`;
+      document.getElementById('quizRetry').addEventListener('click', () => {
+        quizStartBtn.click();
+        document.getElementById('quiz').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  }
+
+});

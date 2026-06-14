@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Réseau Télécom — Guide d'analyse & diagnostic</title>
+<meta name="description" content="Guide de référence pour l'analyse de réseau télécom : métier, outils NetAct/U2020, commandes MML, alarmes, arbres de décision, KPI et certifications.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- Bouton menu mobile -->
+<button id="menuToggle" class="menu-toggle" aria-label="Menu">☰</button>
+
+<!-- BARRE LATÉRALE -->
+<aside class="sidebar" id="sidebar">
+  <div class="brand">
+    <div class="brand-logo">📡</div>
+    <div>
+      <div class="brand-name">RéseauTélécom</div>
+      <div class="brand-sub">Guide d'analyse & diagnostic</div>
+    </div>
+  </div>
+
+  <div class="search-box">
+    <input type="search" id="searchInput" placeholder="🔍 Rechercher (alarme, commande…)" autocomplete="off">
+    <div id="searchResults" class="search-results"></div>
+  </div>
+
+  <nav class="nav">
+    <a href="#accueil" class="nav-link active">🏠 Accueil</a>
+    <a href="#metier" class="nav-link">👷 Le métier</a>
+    <a href="#archi" class="nav-link">🏗️ Architecture réseau</a>
+    <a href="#generations" class="nav-link">📶 Générations & 5G</a>
+    <a href="#outils" class="nav-link">🛠️ Outils (NetAct / U2020)</a>
+    <a href="#boite" class="nav-link">🧰 Boîte à outils</a>
+    <a href="#mml" class="nav-link">⌨️ Commandes MML</a>
+    <a href="#alarmes" class="nav-link">🚨 Alarmes fréquentes</a>
+    <a href="#mapping" class="nav-link">🔀 Alarmes Huawei↔Nokia</a>
+    <a href="#process" class="nav-link">🔄 Résolution d'incident</a>
+    <a href="#arbres" class="nav-link">🌳 Arbres de décision</a>
+    <a href="#kpi" class="nav-link">📊 KPI essentiels</a>
+    <a href="#optim" class="nav-link">🎚️ Optimisation radio</a>
+    <a href="#cas" class="nav-link">📐 Cas pratiques</a>
+    <a href="#routine" class="nav-link">📋 Routine & checklist</a>
+    <a href="#quiz" class="nav-link">🧠 Quiz de révision</a>
+    <a href="#entretien" class="nav-link">🎤 Préparation entretien</a>
+    <a href="#glossaire" class="nav-link">📖 Glossaire</a>
+    <a href="#certifs" class="nav-link">🎓 Certifications</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <button id="themeToggle" class="theme-btn">🌙 Mode sombre</button>
+  </div>
+</aside>
+
+<!-- CONTENU -->
+<main class="content">
+
+  <!-- ACCUEIL -->
+  <section id="accueil" class="section">
+    <div class="hero">
+      <h1>Analyse & diagnostic de réseau télécom</h1>
+      <p class="lead">Le guide de référence pour comprendre le métier d'analyste réseau, maîtriser les outils <strong>NetAct</strong> et <strong>U2020</strong>, et diagnostiquer les pannes méthodiquement.</p>
+      <div class="hero-cta">
+        <a href="#arbres" class="btn btn-primary">🌳 Diagnostiquer une alarme</a>
+        <a href="#mml" class="btn btn-ghost">⌨️ Voir les commandes MML</a>
+      </div>
+    </div>
+
+    <div class="cards-grid">
+      <a href="#metier" class="card">
+        <div class="card-icon">👷</div>
+        <h3>Le métier</h3>
+        <p>Rôle, activités et compétences de l'ingénieur performance radio / analyste réseau.</p>
+      </a>
+      <a href="#outils" class="card">
+        <div class="card-icon">🛠️</div>
+        <h3>Les outils OSS</h3>
+        <p>NetAct (Nokia) et U2020 (Huawei) : fonctions, modules et comparaison.</p>
+      </a>
+      <a href="#mml" class="card">
+        <div class="card-icon">⌨️</div>
+        <h3>Commandes MML</h3>
+        <p>Les commandes Huawei essentielles, copiables en un clic.</p>
+      </a>
+      <a href="#alarmes" class="card">
+        <div class="card-icon">🚨</div>
+        <h3>Alarmes</h3>
+        <p>Les alarmes les plus fréquentes, filtrables par niveau de sévérité.</p>
+      </a>
+      <a href="#arbres" class="card">
+        <div class="card-icon">🌳</div>
+        <h3>Arbres de décision</h3>
+        <p>Outil interactif : choisis une alarme, suis le diagnostic pas-à-pas.</p>
+      </a>
+      <a href="#certifs" class="card">
+        <div class="card-icon">🎓</div>
+        <h3>Certifications</h3>
+        <p>Le parcours recommandé pour passer d'un profil BI à l'analyse réseau.</p>
+      </a>
+    </div>
+
+    <div class="method-banner">
+      <h2>🧭 La méthode universelle de diagnostic</h2>
+      <div class="method-flow">
+        <span class="flow-step">1. Symptôme</span><span class="flow-arrow">→</span>
+        <span class="flow-step">2. Alarmes / KPI</span><span class="flow-arrow">→</span>
+        <span class="flow-step">3. Cause racine</span><span class="flow-arrow">→</span>
+        <span class="flow-step">4. Confirmer</span><span class="flow-arrow">→</span>
+        <span class="flow-step">5. Action / Escalade</span><span class="flow-arrow">→</span>
+        <span class="flow-step">6. Vérifier</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- LE MÉTIER -->
+  <section id="metier" class="section">
+    <h2 class="section-title">👷 Le métier d'analyste réseau / ingénieur performance radio</h2>
+    <p class="section-intro">Un métier à mi-chemin entre la <strong>technique radio</strong>, <strong>l'analyse de données</strong> et la <strong>résolution de problèmes</strong>. Sa mission : garantir que le réseau fonctionne au mieux pour les abonnés.</p>
+
+    <h3>Les grandes activités</h3>
+    <div class="activity-grid">
+      <div class="activity"><span class="activity-num">1</span><div><strong>Surveillance (monitoring)</strong><p>Suivre l'état du réseau en temps réel via les plateformes OSS (alarmes, KPI).</p></div></div>
+      <div class="activity"><span class="activity-num">2</span><div><strong>Analyse des KPI</strong><p>Exploiter les indicateurs (CSSR, DCR, débit, saturation) pour repérer les dégradations.</p></div></div>
+      <div class="activity"><span class="activity-num">3</span><div><strong>Optimisation</strong><p>Ajuster les paramètres radio, rééquilibrer la charge, recommander de la capacité.</p></div></div>
+      <div class="activity"><span class="activity-num">4</span><div><strong>Drive / Walk Test</strong><p>Mesures terrain pour valider ce que vit réellement l'abonné.</p></div></div>
+      <div class="activity"><span class="activity-num">5</span><div><strong>Reporting</strong><p>Produire des rapports de performance — la BI appliquée au télécom.</p></div></div>
+      <div class="activity"><span class="activity-num">6</span><div><strong>Résolution d'incidents</strong><p>Diagnostiquer la cause racine d'une panne et piloter sa résolution.</p></div></div>
+    </div>
+
+    <h3>Pourquoi un profil BI est pertinent</h3>
+    <table class="data-table">
+      <thead><tr><th>Compétence BI</th><th>Application en performance réseau</th></tr></thead>
+      <tbody>
+        <tr><td>Analyse de données</td><td>Exploiter les KPI et logs réseau</td></tr>
+        <tr><td>Dashboards / reporting</td><td>Tableaux de bord de performance</td></tr>
+        <tr><td>SQL / requêtes</td><td>Extraire les données des bases OSS</td></tr>
+        <tr><td>Détection d'anomalies</td><td>Repérer dégradations et tendances</td></tr>
+        <tr><td>Visualisation</td><td>Cartes de couverture, courbes de trafic</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Les débouchés</h3>
+    <div class="tag-list">
+      <span class="tag">RF / Radio Performance Engineer</span>
+      <span class="tag">Network Optimization Engineer (RNO)</span>
+      <span class="tag">NOC Engineer</span>
+      <span class="tag">SON Engineer</span>
+      <span class="tag">Data Analyst Télécom</span>
+    </div>
+    <p class="note">Employeurs : opérateurs (Orange, Sonatel, MTN, Airtel…), équipementiers (Ericsson, Nokia, Huawei, ZTE), sociétés de services.</p>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section id="archi" class="section">
+    <h2 class="section-title">🏗️ Architecture du réseau</h2>
+    <p class="section-intro">Pour diagnostiquer, il faut savoir <strong>où chercher</strong>. Un réseau mobile se décompose en 3 grands blocs entre l'abonné et Internet.</p>
+
+    <div class="archi-flow">
+      <div class="archi-block"><div class="archi-ico">📱</div><strong>Abonné</strong><span>Téléphone / objet connecté</span></div>
+      <div class="archi-link">↔</div>
+      <div class="archi-block ran"><div class="archi-ico">📡</div><strong>RAN (Accès Radio)</strong><span>Antennes, RRU, BBU, sites (eNodeB/gNodeB)</span></div>
+      <div class="archi-link">↔</div>
+      <div class="archi-block trans"><div class="archi-ico">🔗</div><strong>Transmission</strong><span>Fibre / faisceaux hertziens entre sites</span></div>
+      <div class="archi-link">↔</div>
+      <div class="archi-block core"><div class="archi-ico">🧠</div><strong>Cœur (Core)</strong><span>EPC / 5GC : auth, mobilité, routage</span></div>
+      <div class="archi-link">↔</div>
+      <div class="archi-block"><div class="archi-ico">🌐</div><strong>Internet / Voix</strong><span>Services</span></div>
+    </div>
+
+    <h3>Le site radio en détail (là où vivent la plupart des pannes)</h3>
+    <div class="site-anatomy">
+      <div class="anat-item"><strong>🗼 Pylône / Antenne</strong><p>Rayonne le signal. Problèmes : orientation, tilt, obstacles, casse.</p></div>
+      <div class="anat-item"><strong>📶 RRU (tête radio)</strong><p>Émet/reçoit près de l'antenne. Reliée à la BBU par fibre (CPRI).</p></div>
+      <div class="anat-item"><strong>🧩 BBU (bande de base)</strong><p>Le « cerveau » du site. Contient les cartes radio et de transmission.</p></div>
+      <div class="anat-item"><strong>🔌 Feeder / Jumper</strong><p>Câbles radio↔antenne. Défaut → alarme VSWR.</p></div>
+      <div class="anat-item"><strong>🔋 Énergie</strong><p>Secteur + redresseur + batteries + (groupe électrogène). Source fréquente de pannes.</p></div>
+      <div class="anat-item"><strong>❄️ Shelter / Clim</strong><p>Local technique climatisé. Surchauffe → coupure des équipements.</p></div>
+    </div>
+    <div class="callout">
+      <strong>💡 Logique de diagnostic :</strong> en cas de panne, on descend dans cette hiérarchie <strong>Site → BBU → Carte → RRU → Antenne</strong>, et on vérifie en parallèle la <strong>transmission</strong> et l'<strong>énergie</strong>.
+    </div>
+  </section>
+
+  <!-- GÉNÉRATIONS & 5G -->
+  <section id="generations" class="section">
+    <h2 class="section-title">📶 Générations mobiles & focus 5G</h2>
+    <p class="section-intro">Le métier suit l'évolution des générations. Chacune ajoute du débit, de la capacité et de la complexité.</p>
+    <div class="table-wrap">
+      <table class="data-table" id="genTable">
+        <thead><tr><th>Génération</th><th>Depuis</th><th>Usage</th><th>Débit</th><th>Station</th><th>Cœur</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="note" id="genNote"></p>
+
+    <h3>🆕 Focus 5G — ce que les recruteurs aiment entendre</h3>
+    <div class="fiveg-grid" id="fivegGrid"></div>
+  </section>
+
+  <!-- OUTILS -->
+  <section id="outils" class="section">
+    <h2 class="section-title">🛠️ Les outils OSS : NetAct & U2020</h2>
+    <p class="section-intro">L'<strong>OSS</strong> (Operations Support System) est la plateforme centrale qui collecte alarmes et KPI de tout le réseau. Chaque équipementier a la sienne.</p>
+
+    <div class="tool-cards">
+      <div class="tool-card nokia">
+        <div class="tool-head"><span class="tool-badge">Nokia</span><h3>NetAct</h3></div>
+        <p>Système de gestion réseau centralisé, multi-technologies (2G→5G). Organisé selon le modèle <strong>FCAPS</strong>.</p>
+        <ul class="tool-list">
+          <li><strong>Monitor</strong> — alarmes en temps réel</li>
+          <li><strong>Reporter</strong> — KPI & rapports <span class="bi-flag">≈ BI</span></li>
+          <li><strong>CM Editor</strong> — configuration (graphique)</li>
+          <li><strong>Optimizer</strong> — optimisation</li>
+        </ul>
+        <p class="tool-foot">Successeur moderne : MantaRay / iSON · Logique « clic »</p>
+      </div>
+
+      <div class="tool-card huawei">
+        <div class="tool-head"><span class="tool-badge">Huawei</span><h3>U2020</h3></div>
+        <p>OSS unifié de Huawei (successeur M2000/U2000), multi-technologies, forte composante d'automatisation.</p>
+        <ul class="tool-list">
+          <li><strong>Topology</strong> — carte des sites</li>
+          <li><strong>Fault Management</strong> — alarmes</li>
+          <li><strong>Performance Mgmt</strong> — KPI <span class="bi-flag">≈ BI</span></li>
+          <li><strong>MML Commands</strong> — config par commandes texte</li>
+        </ul>
+        <p class="tool-foot">Successeur moderne : iMaster MAE · Logique « commandes MML »</p>
+      </div>
+    </div>
+
+    <h3>Comparaison</h3>
+    <table class="data-table">
+      <thead><tr><th>Critère</th><th>NetAct (Nokia)</th><th>U2020 (Huawei)</th></tr></thead>
+      <tbody>
+        <tr><td>Configuration</td><td>Plutôt graphique (CM Editor)</td><td>Plutôt commandes MML + GUI</td></tr>
+        <tr><td>Reporting KPI</td><td>NetAct Reporter</td><td>Performance Mgmt + Nastar</td></tr>
+        <tr><td>Alarmes</td><td>Monitor</td><td>Fault Management</td></tr>
+        <tr><td>Successeur</td><td>MantaRay / iSON</td><td>iMaster MAE</td></tr>
+        <tr><td>Présence géo</td><td>Europe, monde</td><td>Afrique, Asie, MENA ++</td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <strong>💡 Le concept est identique</strong> dans les deux : surveiller les alarmes, extraire les KPI, configurer, optimiser. Seules l'interface et la logique changent.
+    </div>
+  </section>
+
+  <!-- BOÎTE À OUTILS -->
+  <section id="boite" class="section">
+    <h2 class="section-title">🧰 La boîte à outils de l'analyste</h2>
+    <p class="section-intro">Au-delà de l'OSS, voici l'ensemble des outils qu'utilise un analyste réseau au quotidien, classés par usage.</p>
+
+    <div class="toolbox-grid">
+      <div class="toolbox-cat">
+        <h4>🖥️ Supervision (OSS)</h4>
+        <ul>
+          <li><strong>NetAct</strong> (Nokia) — alarmes & KPI</li>
+          <li><strong>U2020 / iMaster MAE</strong> (Huawei)</li>
+          <li><strong>ENM</strong> (Ericsson) · <strong>NetNumen</strong> (ZTE)</li>
+        </ul>
+      </div>
+      <div class="toolbox-cat">
+        <h4>📈 Analyse de performance</h4>
+        <ul>
+          <li><strong>ENIQ</strong> (Ericsson) — entrepôt KPI</li>
+          <li><strong>Nastar / PRS</strong> (Huawei)</li>
+          <li><strong>Mycom OSI</strong> — multi-vendeur</li>
+        </ul>
+      </div>
+      <div class="toolbox-cat">
+        <h4>🚗 Drive / Walk Test</h4>
+        <ul>
+          <li><strong>TEMS</strong> (Infovista) — la référence</li>
+          <li><strong>Nemo</strong> (Keysight)</li>
+          <li><strong>XCAL / XCAP</strong> · <strong>ROMES</strong> (R&S)</li>
+        </ul>
+      </div>
+      <div class="toolbox-cat">
+        <h4>🗺️ Planification radio</h4>
+        <ul>
+          <li><strong>Atoll</strong> (Forsk) — le plus répandu</li>
+          <li><strong>Asset</strong> (TEOCO)</li>
+          <li><strong>Planet</strong> (Infovista)</li>
+        </ul>
+      </div>
+      <div class="toolbox-cat highlight">
+        <h4>📊 Data & BI <span class="bi-flag">ton atout</span></h4>
+        <ul>
+          <li><strong>SQL</strong> — interroger les bases de compteurs</li>
+          <li><strong>Python</strong> (pandas) — automatiser l'analyse</li>
+          <li><strong>Power BI / Tableau / Grafana</strong></li>
+          <li><strong>Excel</strong> — toujours utile</li>
+        </ul>
+      </div>
+      <div class="toolbox-cat">
+        <h4>🎫 Gestion & communication</h4>
+        <ul>
+          <li><strong>Ticketing</strong> : Remedy, ServiceNow</li>
+          <li><strong>Change management</strong></li>
+          <li><strong>Runbooks</strong> / base de connaissances</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout">
+      <strong>Le pont BI ↔ télécom :</strong> l'OSS fournit la donnée brute, mais on l'<strong>exporte souvent</strong> (CSV, base) pour la retravailler dans Power BI / Python. C'est exactement là que ton profil est recherché.
+    </div>
+  </section>
+
+  <!-- COMMANDES MML -->
+  <section id="mml" class="section">
+    <h2 class="section-title">⌨️ Commandes MML Huawei (U2020)</h2>
+    <p class="section-intro">Le <strong>MML</strong> (Man-Machine Language) suit toujours la logique <strong>verbe + objet</strong>. Astuce : <code>LST</code> = ce qui est configuré · <code>DSP</code> = ce qui se passe maintenant.</p>
+
+    <div class="verb-legend">
+      <span class="verb-chip read">LST · DSP — lecture</span>
+      <span class="verb-chip write">MOD · ADD · SET — modification</span>
+      <span class="verb-chip danger">BLK · RST · RMV — impactant ⚠️</span>
+    </div>
+
+    <div class="mml-filter">
+      <input type="search" id="mmlSearch" placeholder="🔍 Filtrer les commandes…">
+      <div class="filter-btns">
+        <button class="fbtn active" data-cat="all">Toutes</button>
+        <button class="fbtn" data-cat="alarme">Alarmes</button>
+        <button class="fbtn" data-cat="etat">État</button>
+        <button class="fbtn" data-cat="transmission">Transmission</button>
+        <button class="fbtn" data-cat="action">Actions ⚠️</button>
+      </div>
+    </div>
+
+    <table class="data-table mml-table" id="mmlTable">
+      <thead><tr><th>Commande</th><th>Description</th><th></th></tr></thead>
+      <tbody>
+        <tr data-cat="alarme"><td><code>DSP ALMAF</code></td><td>Afficher les alarmes actives</td><td><button class="copy-btn" data-copy="DSP ALMAF">📋</button></td></tr>
+        <tr data-cat="alarme"><td><code>LST ALMAF</code></td><td>Historique des alarmes</td><td><button class="copy-btn" data-copy="LST ALMAF">📋</button></td></tr>
+        <tr data-cat="alarme"><td><code>DSP BRDALM</code></td><td>Alarmes au niveau carte (board)</td><td><button class="copy-btn" data-copy="DSP BRDALM">📋</button></td></tr>
+        <tr data-cat="etat"><td><code>DSP BRD</code></td><td>État des cartes du site</td><td><button class="copy-btn" data-copy="DSP BRD">📋</button></td></tr>
+        <tr data-cat="etat"><td><code>DSP CELL</code></td><td>État dynamique d'une cellule (UP/DOWN)</td><td><button class="copy-btn" data-copy="DSP CELL">📋</button></td></tr>
+        <tr data-cat="etat"><td><code>LST CELL</code></td><td>Configuration des cellules</td><td><button class="copy-btn" data-copy="LST CELL">📋</button></td></tr>
+        <tr data-cat="etat"><td><code>DSP RRU</code></td><td>État des têtes radio (RRU)</td><td><button class="copy-btn" data-copy="DSP RRU">📋</button></td></tr>
+        <tr data-cat="etat"><td><code>DSP BBUBP</code></td><td>État du fond de panier BBU</td><td><button class="copy-btn" data-copy="DSP BBUBP">📋</button></td></tr>
+        <tr data-cat="etat"><td><code>DSP SECTOREQM</code></td><td>État de l'équipement secteur/antenne</td><td><button class="copy-btn" data-copy="DSP SECTOREQM">📋</button></td></tr>
+        <tr data-cat="transmission"><td><code>DSP IPPATH</code></td><td>État des chemins IP</td><td><button class="copy-btn" data-copy="DSP IPPATH">📋</button></td></tr>
+        <tr data-cat="transmission"><td><code>DSP SCTPLNK</code></td><td>État des liens SCTP (signalisation)</td><td><button class="copy-btn" data-copy="DSP SCTPLNK">📋</button></td></tr>
+        <tr data-cat="transmission"><td><code>PING</code></td><td>Test de connectivité IP</td><td><button class="copy-btn" data-copy="PING">📋</button></td></tr>
+        <tr data-cat="transmission"><td><code>DSP S1INTERFACE</code></td><td>État de l'interface S1 (vers cœur 4G)</td><td><button class="copy-btn" data-copy="DSP S1INTERFACE">📋</button></td></tr>
+        <tr data-cat="etat"><td><code>DSP CLKSTAT</code></td><td>État de la synchronisation horloge</td><td><button class="copy-btn" data-copy="DSP CLKSTAT">📋</button></td></tr>
+        <tr data-cat="etat"><td><code>DSP CLKSRC</code></td><td>Source d'horloge (GPS, etc.)</td><td><button class="copy-btn" data-copy="DSP CLKSRC">📋</button></td></tr>
+        <tr data-cat="etat"><td><code>DSP LICENSE</code></td><td>État des licences</td><td><button class="copy-btn" data-copy="DSP LICENSE">📋</button></td></tr>
+        <tr data-cat="etat"><td><code>DSP POWER</code></td><td>État de l'alimentation</td><td><button class="copy-btn" data-copy="DSP POWER">📋</button></td></tr>
+        <tr data-cat="action"><td><code>BLK CELL</code></td><td>⚠️ Bloquer une cellule (avant maintenance)</td><td><button class="copy-btn" data-copy="BLK CELL">📋</button></td></tr>
+        <tr data-cat="action"><td><code>UBL CELL</code></td><td>Débloquer / remettre en service une cellule</td><td><button class="copy-btn" data-copy="UBL CELL">📋</button></td></tr>
+        <tr data-cat="action"><td><code>ACT CELL</code></td><td>Activer une cellule</td><td><button class="copy-btn" data-copy="ACT CELL">📋</button></td></tr>
+        <tr data-cat="action"><td><code>RST BRD</code></td><td>⚠️ Redémarrer une carte (reset board)</td><td><button class="copy-btn" data-copy="RST BRD">📋</button></td></tr>
+        <tr data-cat="action"><td><code>MOD CELL</code></td><td>⚠️ Modifier un paramètre de cellule</td><td><button class="copy-btn" data-copy="MOD CELL">📋</button></td></tr>
+      </tbody>
+    </table>
+    <p class="warning-note">⚠️ Les commandes <code>BLK</code>, <code>RST</code>, <code>MOD</code>, <code>RMV</code> impactent le service. En production, jamais sans validation (change request, fenêtre de maintenance).</p>
+
+    <h3>📋 Exemples détaillés (syntaxe + sortie)</h3>
+    <p class="section-intro">Les commandes avec leurs paramètres réels et un exemple de ce qu'elles renvoient.</p>
+    <div class="mml-detailed" id="mmlDetailed"></div>
+    <button class="btn btn-ghost print-btn" data-print="mml" style="color:var(--text);border-color:var(--border)">🖨️ Imprimer l'aide-mémoire MML</button>
+  </section>
+
+  <!-- ALARMES -->
+  <section id="alarmes" class="section">
+    <h2 class="section-title">🚨 Les alarmes les plus fréquentes</h2>
+    <p class="section-intro">On trie toujours par <strong>sévérité</strong>, puis par <strong>portée</strong> (site &gt; cellule), puis par <strong>impact client</strong>.</p>
+
+    <div class="severity-filter">
+      <button class="sbtn active" data-sev="all">Toutes</button>
+      <button class="sbtn" data-sev="critical">🔴 Critical</button>
+      <button class="sbtn" data-sev="major">🟠 Major</button>
+      <button class="sbtn" data-sev="minor">🟡 Minor</button>
+    </div>
+
+    <div class="alarm-list" id="alarmList">
+      <div class="alarm-card critical" data-sev="critical">
+        <div class="alarm-head"><span class="sev-dot">🔴</span><h4>Cell / Site Unavailable</h4><span class="sev-label">Critical</span></div>
+        <p>Plus aucun service sur la cellule ou le site. Impact direct sur les abonnés — <strong>priorité n°1</strong>.</p>
+        <p class="alarm-vendor">Huawei : <em>Cell Unavailable</em> · Nokia : <em>Base Station Out of Use</em></p>
+      </div>
+      <div class="alarm-card critical" data-sev="critical">
+        <div class="alarm-head"><span class="sev-dot">🔴</span><h4>Transmission / Link Failure (S1, SCTP)</h4><span class="sev-label">Critical</span></div>
+        <p>Le site ne communique plus avec le réseau. Une coupure peut faire tomber plusieurs sites.</p>
+        <p class="alarm-vendor">Cause : coupure fibre, faisceau hertzien dégradé, panne transmission.</p>
+      </div>
+      <div class="alarm-card critical" data-sev="critical">
+        <div class="alarm-head"><span class="sev-dot">🔴</span><h4>Power / Mains Failure</h4><span class="sev-label">Critical</span></div>
+        <p>Le site est passé sur batterie. ⏳ Compte à rebours avant extinction totale. Très fréquent en zones à coupures électriques.</p>
+      </div>
+      <div class="alarm-card critical" data-sev="critical">
+        <div class="alarm-head"><span class="sev-dot">🔴</span><h4>Board / Card Fault</h4><span class="sev-label">Critical</span></div>
+        <p>Une carte (BBU, carte radio) est défaillante → panne matérielle nécessitant une intervention terrain.</p>
+      </div>
+      <div class="alarm-card major" data-sev="major">
+        <div class="alarm-head"><span class="sev-dot">🟠</span><h4>RRU / Radio Unit Fault</h4><span class="sev-label">Major</span></div>
+        <p>La tête radio (RRU) ne répond plus → un secteur tombe.</p>
+      </div>
+      <div class="alarm-card major" data-sev="major">
+        <div class="alarm-head"><span class="sev-dot">🟠</span><h4>VSWR Alarm (antenne / câble)</h4><span class="sev-label">Major</span></div>
+        <p>Mauvaise adaptation radio↔antenne : câble endommagé, connecteur desserré, infiltration d'eau. Dégrade fortement la couverture.</p>
+      </div>
+      <div class="alarm-card major" data-sev="major">
+        <div class="alarm-head"><span class="sev-dot">🟠</span><h4>Clock / GPS Synchronization</h4><span class="sev-label">Major</span></div>
+        <p>Perte de référence temporelle → échecs de handover et risque de coupure à terme. Critique en 4G/5G.</p>
+      </div>
+      <div class="alarm-card major" data-sev="major">
+        <div class="alarm-head"><span class="sev-dot">🟠</span><h4>Temperature / Environment</h4><span class="sev-label">Major</span></div>
+        <p>Climatisation en panne → risque de coupure des équipements par surchauffe.</p>
+      </div>
+      <div class="alarm-card major" data-sev="major">
+        <div class="alarm-head"><span class="sev-dot">🟠</span><h4>Battery Fault / Low Battery</h4><span class="sev-label">Major</span></div>
+        <p>Batteries déchargées/défectueuses. Couplée à une alarme Power, situation très dangereuse.</p>
+      </div>
+      <div class="alarm-card minor" data-sev="minor">
+        <div class="alarm-head"><span class="sev-dot">🟡</span><h4>Cell Congestion / Capacity</h4><span class="sev-label">Minor</span></div>
+        <p>Cellule saturée (trop d'utilisateurs), souvent aux heures de pointe.</p>
+      </div>
+      <div class="alarm-card minor" data-sev="minor">
+        <div class="alarm-head"><span class="sev-dot">🟡</span><h4>License Alarm</h4><span class="sev-label">Minor</span></div>
+        <p>Licence expirée/dépassée → fonctionnalités bloquées.</p>
+      </div>
+      <div class="alarm-card minor" data-sev="minor">
+        <div class="alarm-head"><span class="sev-dot">🟡</span><h4>Door / External Alarm</h4><span class="sev-label">Minor</span></div>
+        <p>Porte du shelter ouverte : intervention, intrusion ou vol.</p>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <strong>⚠️ Le piège des alarmes « parentes / enfants »</strong> — une seule panne génère une cascade d'alarmes. Cherche toujours l'<strong>alarme racine (root cause)</strong>, pas les 20 alarmes secondaires.
+    </div>
+    <button class="btn btn-ghost print-btn" data-print="alarmes" style="color:var(--text);border-color:var(--border)">🖨️ Imprimer la liste des alarmes</button>
+  </section>
+
+  <!-- CORRESPONDANCE ALARMES -->
+  <section id="mapping" class="section">
+    <h2 class="section-title">🔀 Correspondance alarmes Huawei ↔ Nokia</h2>
+    <p class="section-intro">Le même problème porte un nom différent selon l'équipementier. Ce tableau t'aide à passer d'U2020 (Huawei) à NetAct (Nokia).</p>
+    <div class="table-wrap">
+      <table class="data-table" id="mappingTable">
+        <thead><tr><th>Type de problème</th><th>🟥 Huawei (U2020)</th><th>🟦 Nokia (NetAct)</th><th>Sévérité</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PROCESSUS DE RÉSOLUTION -->
+  <section id="process" class="section">
+    <h2 class="section-title">🔄 Le processus de résolution d'un incident</h2>
+    <p class="section-intro">De la détection du problème jusqu'à la clôture : les <strong>7 étapes</strong> que suit l'analyste. Clique sur une étape pour voir le détail (actions, outils, acteurs, résultat attendu).</p>
+
+    <div class="stepper" id="stepper"></div>
+    <div class="step-detail" id="stepDetail"></div>
+
+    <h3>Les niveaux d'escalade</h3>
+    <p class="section-intro">Quand l'analyste ne peut pas résoudre seul, il « escalade » vers l'équipe compétente.</p>
+    <div class="escalation" id="escalation"></div>
+
+    <h3>🎫 Modèle de ticket / Trouble Report</h3>
+    <p class="section-intro">Les informations à toujours renseigner pour un incident bien documenté.</p>
+    <div class="ticket-card">
+      <div class="ticket-row"><span class="ticket-label">ID / Date</span><span>Numéro unique + horodatage de détection</span></div>
+      <div class="ticket-row"><span class="ticket-label">Site / Cellule</span><span>Nom et identifiant de l'élément impacté</span></div>
+      <div class="ticket-row"><span class="ticket-label">Symptôme</span><span>Ce qui ne fonctionne pas (description claire)</span></div>
+      <div class="ticket-row"><span class="ticket-label">Alarme(s)</span><span>Alarme racine + sévérité</span></div>
+      <div class="ticket-row"><span class="ticket-label">Priorité</span><span>P1 / P2 / P3 et SLA associé</span></div>
+      <div class="ticket-row"><span class="ticket-label">Diagnostic</span><span>Cause racine identifiée + preuves (KPI, logs)</span></div>
+      <div class="ticket-row"><span class="ticket-label">Action</span><span>Correction appliquée + équipe intervenante</span></div>
+      <div class="ticket-row"><span class="ticket-label">Statut</span><span>Ouvert → En cours → Résolu → Clôturé</span></div>
+      <div class="ticket-row"><span class="ticket-label">Vérification</span><span>Preuve du rétablissement (cellule UP, KPI remontés)</span></div>
+    </div>
+  </section>
+
+  <!-- ARBRES DE DÉCISION -->
+  <section id="arbres" class="section">
+    <h2 class="section-title">🌳 Arbres de décision interactifs</h2>
+    <p class="section-intro">Choisis une alarme, puis réponds aux questions : l'outil te guide vers la cause racine et l'action à mener.</p>
+
+    <div class="tree-picker" id="treePicker"></div>
+
+    <div class="tree-player" id="treePlayer" hidden>
+      <div class="tree-breadcrumb" id="treeBreadcrumb"></div>
+      <div class="tree-node" id="treeNode"></div>
+      <button class="btn btn-ghost tree-restart" id="treeRestart">↺ Recommencer</button>
+    </div>
+  </section>
+
+  <!-- KPI -->
+  <section id="kpi" class="section">
+    <h2 class="section-title">📊 Les KPI télécom essentiels</h2>
+    <p class="section-intro">Les indicateurs que tu suis en permanence, avec leur <strong>formule</strong> et leur <strong>seuil cible</strong>. Une valeur hors cible indique où chercher.</p>
+    <div class="table-wrap">
+      <table class="data-table" id="kpiTable">
+        <thead><tr><th>KPI</th><th>Nom complet</th><th>Formule</th><th>Cible</th><th>Ce qu'il révèle</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <strong>Exemple concret</strong> — Débit 4G faible dans un quartier : disponibilité OK, aucune alarme, mais <strong>PRB Utilization à 98 %</strong> aux heures de pointe → <strong>saturation</strong>. Solution : ajouter de la capacité / activer une fréquence / déployer un site.
+    </div>
+  </section>
+
+  <!-- OPTIMISATION RADIO -->
+  <section id="optim" class="section">
+    <h2 class="section-title">🎚️ Optimisation radio — les leviers d'action</h2>
+    <p class="section-intro">Le « <em>qu'est-ce qu'on modifie</em> » quand on optimise une cellule. Pour chaque levier : ce que c'est, quand l'utiliser, et le risque.</p>
+    <div class="optim-grid" id="optimGrid"></div>
+    <div class="callout">
+      <strong>💡 Règle d'or :</strong> on ne modifie jamais à l'aveugle. On part d'un <strong>KPI dégradé</strong> (ex. DCR élevé, SINR faible, PRB saturé), on choisit le levier adapté, puis on <strong>mesure l'effet</strong> (KPI + drive test) avant/après.
+    </div>
+  </section>
+
+  <!-- CAS PRATIQUES -->
+  <section id="cas" class="section">
+    <h2 class="section-title">📐 Cas pratiques chiffrés</h2>
+    <p class="section-intro">Des incidents réels résolus de bout en bout, avec les <strong>valeurs de KPI avant/après</strong>. Clique sur un cas pour dérouler le diagnostic complet.</p>
+    <div class="cases" id="cases"></div>
+  </section>
+
+  <!-- ROUTINE & CHECKLIST -->
+  <section id="routine" class="section">
+    <h2 class="section-title">📋 Routine & checklist quotidienne</h2>
+    <p class="section-intro">Ce que fait l'analyste en début de shift (au NOC) et tout au long de la journée. Coche les éléments — ta progression est sauvegardée.</p>
+
+    <div class="checklist-cols">
+      <div class="checklist-card">
+        <h4>🌅 Début de shift</h4>
+        <ul class="checklist" data-key="matin">
+          <li><label><input type="checkbox"> Prise de poste / passation (handover) avec l'équipe précédente</label></li>
+          <li><label><input type="checkbox"> Lire les alarmes Critical (🔴) en cours</label></li>
+          <li><label><input type="checkbox"> Vérifier les sites/cellules down (Site Unavailable)</label></li>
+          <li><label><input type="checkbox"> Contrôler les alarmes Power (sites sur batterie)</label></li>
+          <li><label><input type="checkbox"> Vérifier les liens de transmission majeurs</label></li>
+          <li><label><input type="checkbox"> Revue des KPI clés (disponibilité, CSSR, DCR)</label></li>
+          <li><label><input type="checkbox"> Lister les tickets ouverts non résolus</label></li>
+        </ul>
+      </div>
+      <div class="checklist-card">
+        <h4>🔁 En continu</h4>
+        <ul class="checklist" data-key="continu">
+          <li><label><input type="checkbox"> Surveiller le flux d'alarmes temps réel</label></li>
+          <li><label><input type="checkbox"> Traiter les incidents par priorité (P1 d'abord)</label></li>
+          <li><label><input type="checkbox"> Tenir les tickets à jour</label></li>
+          <li><label><input type="checkbox"> Escalader ce qui dépasse le niveau 1</label></li>
+          <li><label><input type="checkbox"> Surveiller les KPI aux heures de pointe (saturation)</label></li>
+          <li><label><input type="checkbox"> Communiquer sur les incidents majeurs</label></li>
+        </ul>
+      </div>
+      <div class="checklist-card">
+        <h4>🌙 Fin de shift</h4>
+        <ul class="checklist" data-key="soir">
+          <li><label><input type="checkbox"> Clôturer les incidents résolus (avec vérification KPI)</label></li>
+          <li><label><input type="checkbox"> Rédiger le rapport de shift</label></li>
+          <li><label><input type="checkbox"> Préparer la passation des incidents en cours</label></li>
+          <li><label><input type="checkbox"> Noter les points de vigilance pour l'équipe suivante</label></li>
+        </ul>
+      </div>
+    </div>
+    <button class="btn btn-ghost" id="resetChecklist" style="margin-top:16px;color:var(--text);border-color:var(--border)">↺ Réinitialiser les cases</button>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="section">
+    <h2 class="section-title">🧠 Quiz de révision (type HCIA-5G)</h2>
+    <p class="section-intro">Teste tes connaissances. Réponds aux questions, vois immédiatement la correction, et obtiens ton score final.</p>
+    <div class="quiz-box" id="quizBox">
+      <div class="quiz-start" id="quizStart">
+        <p class="quiz-intro-text">📝 <strong id="quizCount">0</strong> questions · correction immédiate · score final</p>
+        <button class="btn btn-primary" id="quizStartBtn">Démarrer le quiz</button>
+      </div>
+      <div class="quiz-play" id="quizPlay" hidden>
+        <div class="quiz-progress"><div class="quiz-progress-bar" id="quizBar"></div></div>
+        <div class="quiz-meta"><span id="quizPos"></span><span id="quizScore"></span></div>
+        <div class="quiz-question" id="quizQuestion"></div>
+        <div class="quiz-options" id="quizOptions"></div>
+        <div class="quiz-feedback" id="quizFeedback" hidden></div>
+        <button class="btn btn-primary quiz-next" id="quizNext" hidden>Question suivante →</button>
+      </div>
+      <div class="quiz-result" id="quizResult" hidden></div>
+    </div>
+  </section>
+
+  <!-- PRÉPARATION ENTRETIEN -->
+  <section id="entretien" class="section">
+    <h2 class="section-title">🎤 Préparation à l'entretien</h2>
+    <p class="section-intro">Les questions classiques d'un entretien d'analyste réseau, avec des <strong>réponses modèles</strong>. Clique pour révéler la réponse — entraîne-toi à répondre d'abord !</p>
+    <div class="interview-filter" id="interviewFilter"></div>
+    <div class="interview-list" id="interviewList"></div>
+  </section>
+
+  <!-- GLOSSAIRE -->
+  <section id="glossaire" class="section">
+    <h2 class="section-title">📖 Glossaire des acronymes</h2>
+    <p class="section-intro">Le vocabulaire indispensable. Tape un terme pour filtrer.</p>
+    <input type="search" id="glossarySearch" class="glossary-search" placeholder="🔍 Rechercher un terme (RRU, CSSR, VSWR…)">
+    <div class="glossary-grid" id="glossaryGrid"></div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section id="certifs" class="section">
+    <h2 class="section-title">🎓 Certifications & parcours</h2>
+    <p class="section-intro">Le parcours recommandé pour passer d'un profil <strong>BI</strong> à <strong>analyste réseau</strong>.</p>
+
+    <div class="roadmap">
+      <div class="road-step"><span class="road-num">1</span><div><strong>HCIA-5G (Huawei)</strong><p>Bases 5G, architecture, O&M. Couvre l'esprit U2020. Ressources gratuites sur Huawei Talent / iLearningX. <span class="best-flag">Meilleur point d'entrée</span></p></div></div>
+      <div class="road-step"><span class="road-num">2</span><div><strong>KPI télécom (auto-formation)</strong><p>Maîtriser CSSR, DCR, throughput, PRB… Comble ton manque télécom.</p></div></div>
+      <div class="road-step"><span class="road-num">3</span><div><strong>Power BI / Python / SQL</strong><p>Valorise ta force BI sur la donnée réseau. Certif PL-300 (Power BI) un atout différenciant.</p></div></div>
+      <div class="road-step"><span class="road-num">4</span><div><strong>HCIP-5G ou Nokia 5G</strong><p>Montée en compétence : planification, optimisation, déploiement.</p></div></div>
+      <div class="road-step"><span class="road-num">5</span><div><strong>(Bonus) Atoll / Drive Test</strong><p>Côté terrain et planification radio.</p></div></div>
+    </div>
+
+    <div class="callout">
+      L'idée : les étapes 1-2 comblent ton manque télécom, l'étape 3 met en avant ce que tu sais déjà faire. C'est la combinaison <strong>« data + réseau »</strong> qui est rare et recherchée.
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <p>📡 Guide d'analyse réseau télécom — fiche de référence personnelle</p>
+  </footer>
+
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
