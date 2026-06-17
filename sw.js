@@ -1,6 +1,6 @@
 /* Service Worker — cache hors-ligne du site (stratégie cache-first).
    Incrémente CACHE_VERSION à chaque déploiement pour rafraîchir le cache. */
-const CACHE_VERSION = 'reseau-telecom-v5';
+const CACHE_VERSION = 'reseau-telecom-v6';
 const ASSETS = [
   './',
   './index.html',

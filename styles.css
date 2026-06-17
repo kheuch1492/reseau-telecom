@@ -621,6 +621,13 @@ body.dark #mappingTable td:nth-child(3) { color: #5b9bff; }
 .ko-pill { background: rgba(229,57,53,.12); color: var(--critical); }
 @media (max-width: 600px) { .op-bar-label { width: 110px; font-size: 12px; } }
 
+/* ===== Marché détaillé (chiffres clés) ===== */
+.figures-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 14px; margin-bottom: 8px; }
+.figure-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; box-shadow: var(--shadow); text-align: center; border-top: 3px solid var(--primary); }
+.figure-value { font-size: 26px; font-weight: 800; color: var(--primary); }
+.figure-label { font-size: 13px; font-weight: 600; margin-top: 4px; }
+.figure-sub { font-size: 11px; color: var(--text-soft); margin-top: 4px; }
+
 /* ===== Footer ===== */
 .site-footer { text-align: center; color: var(--text-soft); font-size: 13px; padding-top: 40px; border-top: 1px solid var(--border); }
 

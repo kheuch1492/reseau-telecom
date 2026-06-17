@@ -40,6 +40,7 @@
     <a href="#archi" class="nav-link">🏗️ Architecture réseau</a>
     <a href="#transmission" class="nav-link">🔗 Transmission</a>
     <a href="#generations" class="nav-link">📶 Générations & 5G</a>
+    <a href="#voix" class="nav-link">📞 Voix 4G/5G (VoLTE)</a>
     <a href="#outils" class="nav-link">🛠️ Outils (NetAct / U2020)</a>
     <a href="#boite" class="nav-link">🧰 Boîte à outils</a>
     <a href="#mml" class="nav-link">⌨️ Commandes MML</a>
@@ -55,6 +56,7 @@
     <a href="#drive" class="nav-link">🚗 Drive Test</a>
     <a href="#qos" class="nav-link">📋 Couverture & QoS (ARTP)</a>
     <a href="#operateurs" class="nav-link">📊 Comparatif opérateurs</a>
+    <a href="#marche" class="nav-link">📈 Marché détaillé</a>
     <a href="#cas" class="nav-link">📐 Cas pratiques</a>
     <a href="#routine" class="nav-link">📋 Routine & checklist</a>
     <a href="#quiz" class="nav-link">🧠 Quiz de révision</a>
@@ -251,6 +253,44 @@
 
     <h3>🆕 Focus 5G — ce que les recruteurs aiment entendre</h3>
     <div class="fiveg-grid" id="fivegGrid"></div>
+  </section>
+
+  <!-- VOIX 4G/5G -->
+  <section id="voix" class="section">
+    <h2 class="section-title">📞 La voix sur 4G / 5G (VoLTE, VoNR, IMS)</h2>
+    <p class="section-intro">En 2G/3G la voix passe par un cœur « circuit ». En 4G/5G, le réseau est <strong>tout-IP</strong> : la voix devient un service de données géré par l'<strong>IMS</strong>. Comprendre ça est essentiel — et c'est une question d'entretien classique.</p>
+
+    <h3>L'évolution de la voix par génération</h3>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Génération</th><th>Comment passe la voix</th><th>Mécanisme</th></tr></thead>
+        <tbody>
+          <tr><td><span class="gen-badge gen-2g">2G</span> / <span class="gen-badge gen-3g">3G</span></td><td>Commutation de circuit (CS)</td><td>Canal dédié dans le cœur circuit</td></tr>
+          <tr><td><span class="gen-badge gen-4g">4G</span></td><td>Voix sur IP via <strong>VoLTE</strong></td><td>IMS · sinon <strong>CSFB</strong> (bascule 2G/3G)</td></tr>
+          <tr><td><span class="gen-badge gen-5g">5G</span></td><td>Voix sur IP via <strong>VoNR</strong></td><td>IMS · souvent <strong>EPS Fallback</strong> vers VoLTE 4G au début</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Les concepts clés</h3>
+    <div class="trans-notions">
+      <div class="notion"><strong>IMS</strong><p>IP Multimedia Subsystem : le sous-système qui gère la voix (et la vidéo) en IP. C'est le « cerveau » de la VoLTE/VoNR.</p></div>
+      <div class="notion"><strong>VoLTE</strong><p>Voice over LTE : la voix portée par le réseau 4G data, via l'IMS. Voix HD + data simultanées.</p></div>
+      <div class="notion"><strong>VoNR</strong><p>Voice over New Radio : l'équivalent en 5G SA (voix nativement sur la 5G).</p></div>
+      <div class="notion"><strong>CSFB</strong><p>Circuit Switched Fallback : si pas de VoLTE, le mobile redescend en 2G/3G pour appeler.</p></div>
+      <div class="notion"><strong>EPS Fallback</strong><p>En 5G sans VoNR, l'appel bascule sur la 4G (VoLTE). Très répandu en début de déploiement 5G.</p></div>
+      <div class="notion"><strong>SRVCC</strong><p>Single Radio Voice Call Continuity : transfère un appel VoLTE vers la 2G/3G sans coupure quand on sort de la couverture 4G.</p></div>
+    </div>
+
+    <h3>Pourquoi la VoLTE ?</h3>
+    <div class="drive-why">
+      <div class="drive-why-item"><strong>⚡ Établissement rapide</strong><p>Appel connecté en ~1–2 s (vs plus long en CSFB).</p></div>
+      <div class="drive-why-item"><strong>🎧 Voix HD</strong><p>Meilleure qualité audio (codec large bande) → meilleur MOS.</p></div>
+      <div class="drive-why-item"><strong>📶 Voix + data</strong><p>On garde le haut débit pendant l'appel (pas de chute en 2G/3G).</p></div>
+    </div>
+    <div class="callout">
+      <strong>💡 Côté analyste :</strong> on suit des KPI dédiés comme le <strong>VoLTE CSSR</strong> (réussite d'établissement VoLTE) et le <strong>VoLTE DCR</strong>. Un échec de bascule (CSFB/SRVCC mal réglé) génère coupures et plaintes — un cas de diagnostic fréquent.
+    </div>
   </section>
 
   <!-- OUTILS -->
@@ -878,6 +918,17 @@
       </div>
     </div>
     <p class="note">⚠️ Données issues des publications de l'ARTP et de la presse (dates indiquées). Les chiffres et statuts évoluent — se référer aux <a href="https://artp.sn/observatoire/qualite-de-service" target="_blank" rel="noopener noreferrer">rapports officiels de l'ARTP</a> pour les valeurs à jour.</p>
+  </section>
+
+  <!-- MARCHÉ DÉTAILLÉ -->
+  <section id="marche" class="section">
+    <h2 class="section-title">📈 Le marché télécom en détail <span class="src-tag">ARTP · T3 2024</span></h2>
+    <p class="section-intro">Les chiffres clés du marché mobile sénégalais publiés par l'ARTP au 3ᵉ trimestre 2024.</p>
+    <div class="figures-grid" id="figuresGrid"></div>
+    <div class="callout">
+      <strong>À retenir :</strong> un taux de pénétration mobile &gt; 100 % signifie qu'il y a <strong>plus de cartes SIM que d'habitants</strong> (multi-SIM fréquent). La quasi-totalité des abonnés Internet sont sur le <strong>mobile</strong> — le fixe reste minoritaire. Orange concentre l'essentiel du <strong>trafic voix</strong>.
+    </div>
+    <p class="note">Source : observatoire de l'<a href="https://artp.sn/observatoire/qualite-de-service" target="_blank" rel="noopener noreferrer">ARTP</a> (T3 2024). Les chiffres sont publiés chaque trimestre — vérifie le rapport le plus récent.</p>
   </section>
 
   <!-- CAS PRATIQUES -->

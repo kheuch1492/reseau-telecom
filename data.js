@@ -1006,3 +1006,16 @@ const OP_QOS = [
   { op: "Yas (ex-Free)", reussite: "ok", delai: "ko", mos: "ok", sms: "ko", data: "ko" },
   { op: "Expresso", reussite: "ok", delai: "ko", mos: "ok", sms: "ko", data: "ko" }
 ];
+
+/* ============================================================
+   Marché télécom Sénégal — chiffres clés (ARTP, T3 2024)
+   ============================================================ */
+const KEY_FIGURES = [
+  { label: "Abonnés mobiles", value: "23,26 M", sub: "+1,06 % vs T2 2024" },
+  { label: "Pénétration mobile", value: "128,3 %", sub: "plusieurs SIM / personne" },
+  { label: "Abonnés Internet", value: "21,32 M", sub: "+2,52 %" },
+  { label: "Abonnés Internet mobile", value: "20,63 M", sub: "la quasi-totalité" },
+  { label: "Pénétration Internet mobile", value: "113,8 %", sub: "+1,89 pt" },
+  { label: "Couverture 3G/4G/5G", value: "96,82 %", sub: "pénétration Internet mobile haut débit" },
+  { label: "Trafic voix mobile", value: "10,23 Mds min", sub: "Orange 75,9 % · Yas 17,0 % · Expresso 4,3 %" }
+];

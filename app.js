@@ -585,6 +585,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* ---------- Marché détaillé (chiffres clés) ---------- */
+  const figuresGrid = document.getElementById('figuresGrid');
+  if (figuresGrid && typeof KEY_FIGURES !== 'undefined') {
+    figuresGrid.innerHTML = KEY_FIGURES.map(f => `
+      <div class="figure-card">
+        <div class="figure-value">${f.value}</div>
+        <div class="figure-label">${f.label}</div>
+        <div class="figure-sub">${f.sub}</div>
+      </div>`).join('');
+  }
+
   /* ---------- Comparatif opérateurs ---------- */
   const opMarketBody = document.querySelector('#opMarketTable tbody');
   if (opMarketBody && typeof OP_MARKET !== 'undefined') {
