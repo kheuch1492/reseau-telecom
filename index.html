@@ -53,6 +53,7 @@
     <a href="#optim" class="nav-link">🎚️ Optimisation radio</a>
     <a href="#son" class="nav-link">🤖 SON & Automatisation</a>
     <a href="#drive" class="nav-link">🚗 Drive Test</a>
+    <a href="#qos" class="nav-link">📋 Couverture & QoS (ARTP)</a>
     <a href="#cas" class="nav-link">📐 Cas pratiques</a>
     <a href="#routine" class="nav-link">📋 Routine & checklist</a>
     <a href="#quiz" class="nav-link">🧠 Quiz de révision</a>
@@ -701,6 +702,114 @@
       <span class="tag">Nemo (Keysight)</span>
       <span class="tag">XCAL / XCAP (Accuver)</span>
       <span class="tag">ROMES (Rohde &amp; Schwarz)</span>
+    </div>
+  </section>
+
+  <!-- COUVERTURE & QoS (ARTP) -->
+  <section id="qos" class="section">
+    <h2 class="section-title">📋 Couverture & qualité de service (régulateur / ARTP)</h2>
+    <p class="section-intro">Le régulateur (au Sénégal : l'<strong>ARTP</strong>) mesure la <strong>couverture</strong> et la <strong>qualité de service (QoS)</strong> des opérateurs, sur la voix, la data et les SMS, pour vérifier qu'ils respectent leurs obligations. Il peut sanctionner en cas de manquement.</p>
+
+    <h3>Couverture vs qualité de service</h3>
+    <div class="cards-grid">
+      <div class="card" style="cursor:default">
+        <div class="card-icon">📡</div>
+        <h3>Couverture</h3>
+        <p>« Y a-t-il du signal ? » — le <strong>taux de présence du signal</strong> sur le territoire, par technologie. On distingue la couverture <strong>population</strong> (% d'habitants couverts) et <strong>territoire</strong> (% de surface).</p>
+      </div>
+      <div class="card" style="cursor:default">
+        <div class="card-icon">✨</div>
+        <h3>Qualité de service (QoS)</h3>
+        <p>« Le service marche-t-il bien ? » — une fois le signal présent : les appels passent-ils, le débit est-il bon, y a-t-il des coupures ? C'est l'expérience réelle de l'abonné.</p>
+      </div>
+    </div>
+
+    <h3>Couverture par génération : voix, SMS & data</h3>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Génération</th><th>Voix</th><th>SMS</th><th>Data</th></tr></thead>
+        <tbody>
+          <tr><td><span class="gen-badge gen-2g">2G</span></td><td>✅ (cœur historique)</td><td>✅</td><td>⚠️ Très faible (GPRS/EDGE)</td></tr>
+          <tr><td><span class="gen-badge gen-3g">3G</span></td><td>✅</td><td>✅</td><td>✅ Data mobile</td></tr>
+          <tr><td><span class="gen-badge gen-4g">4G</span></td><td>✅ via VoLTE</td><td>✅</td><td>✅✅ Haut débit</td></tr>
+          <tr><td><span class="gen-badge gen-5g">5G</span></td><td>✅ via VoLTE/VoNR</td><td>✅</td><td>✅✅✅ Très haut débit</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">💡 En 4G/5G, la voix ne passe plus par un cœur « circuit » mais en IP (VoLTE/VoNR) ; sans VoLTE, le mobile bascule en 2G/3G pour appeler (CSFB).</p>
+
+    <h3>Les indicateurs mesurés par le régulateur</h3>
+    <div class="qos-cols">
+      <div class="qos-card voice">
+        <h4>📞 Voix</h4>
+        <ul>
+          <li><strong>Taux de présence du signal</strong> (couverture)</li>
+          <li><strong>Taux de réussite des appels</strong> (communications réussies)</li>
+          <li><strong>Taux de coupure</strong> d'appel</li>
+          <li><strong>Délai d'établissement</strong> (ex. appels établis en &lt; 15 s)</li>
+          <li><strong>Qualité audio (MOS)</strong> — note d'écoute</li>
+        </ul>
+      </div>
+      <div class="qos-card data">
+        <h4>🌐 Data</h4>
+        <ul>
+          <li><strong>Débit</strong> download / upload (Mbps)</li>
+          <li><strong>Taux de réussite de navigation web</strong> (HTTP)</li>
+          <li><strong>Taux de réussite de téléchargement</strong> / upload</li>
+          <li><strong>Latence</strong></li>
+          <li><strong>Streaming vidéo</strong> (réussite / fluidité)</li>
+        </ul>
+      </div>
+      <div class="qos-card sms">
+        <h4>✉️ SMS</h4>
+        <ul>
+          <li><strong>Taux de réussite</strong> d'envoi</li>
+          <li><strong>Délai de bout en bout</strong> (réception)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Comment l'ARTP mesure</h3>
+    <div class="trans-notions">
+      <div class="notion"><strong>Campagnes de drive test</strong><p>Des agents parcourent le territoire avec des équipements de mesure (comme un Drive Test) sur plusieurs semaines.</p></div>
+      <div class="notion"><strong>Couverture nationale</strong><p>Régions, départements, axes routiers et autoroutes sont mesurés — pas seulement Dakar.</p></div>
+      <div class="notion"><strong>Application citoyenne</strong><p>L'ARTP propose aussi l'appli « Sama Réseau » pour collecter le ressenti des utilisateurs (crowdsourcing).</p></div>
+      <div class="notion"><strong>Seuils & sanctions</strong><p>Les seuils sont fixés par décision (ex. Décision 2021-002). En dessous, l'opérateur peut être sanctionné.</p></div>
+    </div>
+
+    <h3>📊 Résultats réels — campagnes ARTP</h3>
+    <div class="callout">
+      <strong>Campagne nationale nov. 2024 → mars 2025</strong> (voix, data, SMS sur 2G/3G/4G) :
+      <ul style="margin:8px 0 0 18px">
+        <li>À <strong>Dakar</strong> : 100 % de présence du signal pour les 3 opérateurs (Orange, Yas, Expresso).</li>
+        <li><strong>Délai d'établissement d'appel (&lt; 15 s)</strong> : seuil non atteint par les 3 opérateurs au niveau national.</li>
+        <li><strong>Qualité audio (MOS)</strong> : Orange en tête, acceptable pour les 3.</li>
+        <li><strong>SMS</strong> : seuils (Décision 2021-002) non atteints par les opérateurs.</li>
+        <li><strong>Data</strong> : conforme à Dakar ; au national, Yas et Expresso en deçà (web, download, upload).</li>
+      </ul>
+    </div>
+    <div class="callout warn">
+      <strong>Campagne 2021 & sanctions :</strong> seuil de <strong>98 %</strong> fixé pour le taux de communications réussies (Orange et Free l'atteignaient, Expresso en dessous). En décembre 2021, l'ARTP a infligé des pénalités d'environ <strong>16,7 Mds FCFA</strong> (Sonatel/Orange), <strong>2,5 Mds</strong> (Free, devenu Yas) et <strong>1 Md</strong> (Expresso).
+    </div>
+    <p class="note">⚠️ Les chiffres évoluent à chaque campagne. La <strong>5G</strong> a été lancée récemment au Sénégal ; les campagnes historiques portaient sur 2G/3G/4G. Vérifie toujours les <strong>rapports officiels les plus récents</strong> de l'ARTP.</p>
+
+    <h3>🔗 Sources & données officielles</h3>
+    <div class="resources-grid">
+      <a class="res-card" href="https://artp.sn/observatoire/qualite-de-service" target="_blank" rel="noopener noreferrer">
+        <span class="res-cat">ARTP</span><h4>Observatoire QoS de l'ARTP</h4>
+        <p>Rapports de synthèse, campagnes de mesure, indicateurs techniques.</p>
+        <span class="res-link">artp.sn/observatoire/qualite-de-service ↗</span>
+      </a>
+      <a class="res-card" href="https://artp.sn/observatoire/qualite-de-service/mesure-de-la-couverture-et-de-la-qos" target="_blank" rel="noopener noreferrer">
+        <span class="res-cat">ARTP</span><h4>Mesure de la couverture & QoS</h4>
+        <p>Méthodologie des campagnes de mesure de l'ARTP.</p>
+        <span class="res-link">artp.sn — mesure couverture & QoS ↗</span>
+      </a>
+      <a class="res-card" href="https://osiris.sn/couverture-et-la-qos-voix-donnees-et-sms-2g-3g-4g-au-senegal-les-resultats-de.html" target="_blank" rel="noopener noreferrer">
+        <span class="res-cat">OSIRIS</span><h4>Résultats campagne 2024-2025</h4>
+        <p>Synthèse des résultats de la campagne de mesure de l'ARTP.</p>
+        <span class="res-link">osiris.sn — résultats QoS ↗</span>
+      </a>
     </div>
   </section>
 

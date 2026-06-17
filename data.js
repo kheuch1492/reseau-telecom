@@ -749,6 +749,24 @@ const QUIZ = [
     options: ["Facturer les clients", "Anticiper saturations et pannes avant qu'elles surviennent", "Remplacer les antennes", "Crypter le trafic"],
     correct: 1,
     explain: "L'AIOps applique l'IA/la data aux logs et KPI pour détecter les anomalies et anticiper — là où un profil BI est précieux."
+  },
+  {
+    q: "Au Sénégal, quel organisme mesure la qualité de service des opérateurs ?",
+    options: ["La Sonatel", "L'ARTP", "L'UIT", "Le 3GPP"],
+    correct: 1,
+    explain: "L'ARTP (Autorité de Régulation des Télécommunications et des Postes) mène les campagnes de mesure et peut sanctionner."
+  },
+  {
+    q: "Le 'taux de présence du signal' est un indicateur de…",
+    options: ["Couverture", "Latence", "Facturation", "Sécurité"],
+    correct: 0,
+    explain: "Il indique si le signal est présent (couverture), avant même de juger la qualité du service (QoS)."
+  },
+  {
+    q: "En 4G/5G, comment passe la voix (au lieu du cœur circuit) ?",
+    options: ["Par SMS", "En IP via VoLTE / VoNR", "Par satellite", "Elle ne passe pas"],
+    correct: 1,
+    explain: "La voix est portée en IP (VoLTE en 4G, VoNR en 5G). Sans VoLTE, le mobile bascule en 2G/3G pour appeler (CSFB)."
   }
 ];
 

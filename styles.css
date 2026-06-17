@@ -592,6 +592,18 @@ body.dark #mappingTable td:nth-child(3) { color: #5b9bff; }
 .aiops-item strong { font-size: 14px; }
 .aiops-item p { font-size: 13px; color: var(--text-soft); margin-top: 4px; }
 
+/* ===== Couverture & QoS (ARTP) ===== */
+.qos-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 16px; }
+.qos-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; box-shadow: var(--shadow); border-top: 3px solid var(--primary); }
+.qos-card.voice { border-top-color: #2ea043; }
+.qos-card.data { border-top-color: var(--primary); }
+.qos-card.sms { border-top-color: #8e24aa; }
+.qos-card h4 { font-size: 16px; margin-bottom: 10px; }
+.qos-card ul { list-style: none; }
+.qos-card li { font-size: 13px; padding: 6px 0; border-bottom: 1px solid var(--border); color: var(--text-soft); }
+.qos-card li:last-child { border: none; }
+.qos-card strong { color: var(--text); }
+
 /* ===== Footer ===== */
 .site-footer { text-align: center; color: var(--text-soft); font-size: 13px; padding-top: 40px; border-top: 1px solid var(--border); }
 
