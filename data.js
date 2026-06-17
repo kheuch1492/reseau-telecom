@@ -988,3 +988,21 @@ const DT_RADIO = [
   { gen: "4G", cls: "gen-4g", covName: "RSRP", covGood: "≥ -95 dBm", covBad: "< -115 dBm", qualName: "RSRQ / SINR", qualGood: "RSRQ ≥ -10 dB · SINR ≥ 13 dB", qualBad: "RSRQ < -16 · SINR < 0" },
   { gen: "5G", cls: "gen-5g", covName: "SS-RSRP", covGood: "≥ -95 dBm", covBad: "< -115 dBm", qualName: "SS-RSRQ / SS-SINR", qualGood: "SS-SINR ≥ 13 dB", qualBad: "SS-SINR < 0 dB" }
 ];
+
+/* ============================================================
+   Comparatif opérateurs Sénégal
+   Marché : données ARTP T3 2024 (parts de marché abonnés, trafic voix).
+   QoS : campagne ARTP nov 2024 - mars 2025 (conformité par service).
+   ============================================================ */
+const OP_MARKET = [
+  { op: "Orange (Sonatel)", share: "57,12 %", traffic: "75,87 %", color: "#ff7900" },
+  { op: "Yas (ex-Free)", share: "22,26 %", traffic: "16,95 %", color: "#e2001a" },
+  { op: "Expresso", share: "16,36 %", traffic: "4,34 %", color: "#00a0e3" },
+  { op: "Autres (Pro Mobile, Hayo)", share: "4,26 %", traffic: "—", color: "#78909c" }
+];
+
+const OP_QOS = [
+  { op: "Orange (Sonatel)", reussite: "ok", delai: "ko", mos: "ok", sms: "ko", data: "ok" },
+  { op: "Yas (ex-Free)", reussite: "ok", delai: "ko", mos: "ok", sms: "ko", data: "ko" },
+  { op: "Expresso", reussite: "ok", delai: "ko", mos: "ok", sms: "ko", data: "ko" }
+];

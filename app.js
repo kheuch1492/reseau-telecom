@@ -585,6 +585,36 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* ---------- Comparatif opérateurs ---------- */
+  const opMarketBody = document.querySelector('#opMarketTable tbody');
+  if (opMarketBody && typeof OP_MARKET !== 'undefined') {
+    opMarketBody.innerHTML = OP_MARKET.map(o => `
+      <tr>
+        <td><span class="op-dot" style="background:${o.color}"></span><strong>${o.op}</strong></td>
+        <td>${o.share}</td><td>${o.traffic}</td>
+      </tr>`).join('');
+    const bars = document.getElementById('opMarketBars');
+    if (bars) {
+      bars.innerHTML = OP_MARKET.map(o => {
+        const pct = parseFloat(o.share.replace(',', '.')) || 0;
+        return `<div class="op-bar-row">
+          <span class="op-bar-label">${o.op}</span>
+          <div class="op-bar-track"><div class="op-bar-fill" style="width:${pct}%;background:${o.color}">${o.share}</div></div>
+        </div>`;
+      }).join('');
+    }
+  }
+  const opQosBody = document.querySelector('#opQosTable tbody');
+  if (opQosBody && typeof OP_QOS !== 'undefined') {
+    const cell = v => v === 'ok' ? '<span class="qos-ok">✅</span>' : '<span class="qos-ko">❌</span>';
+    opQosBody.innerHTML = OP_QOS.map(o => `
+      <tr>
+        <td><strong>${o.op}</strong></td>
+        <td>${cell(o.reussite)}</td><td>${cell(o.delai)}</td><td>${cell(o.mos)}</td>
+        <td>${cell(o.sms)}</td><td>${cell(o.data)}</td>
+      </tr>`).join('');
+  }
+
   /* ---------- Seuils Drive Test par techno ---------- */
   const dtServiceBody = document.querySelector('#dtServiceTable tbody');
   if (dtServiceBody && typeof DT_SERVICE !== 'undefined') {

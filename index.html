@@ -54,6 +54,7 @@
     <a href="#son" class="nav-link">🤖 SON & Automatisation</a>
     <a href="#drive" class="nav-link">🚗 Drive Test</a>
     <a href="#qos" class="nav-link">📋 Couverture & QoS (ARTP)</a>
+    <a href="#operateurs" class="nav-link">📊 Comparatif opérateurs</a>
     <a href="#cas" class="nav-link">📐 Cas pratiques</a>
     <a href="#routine" class="nav-link">📋 Routine & checklist</a>
     <a href="#quiz" class="nav-link">🧠 Quiz de révision</a>
@@ -831,6 +832,52 @@
         <span class="res-link">osiris.sn — résultats QoS ↗</span>
       </a>
     </div>
+  </section>
+
+  <!-- COMPARATIF OPÉRATEURS -->
+  <section id="operateurs" class="section">
+    <h2 class="section-title">📊 Comparatif des opérateurs (Sénégal)</h2>
+    <p class="section-intro">Comparaison des 3 opérateurs mobiles — <strong>Orange (Sonatel)</strong>, <strong>Yas</strong> (ex-Free) et <strong>Expresso</strong> — sur le marché et la qualité de service, à partir des données de l'ARTP.</p>
+
+    <h3>Parts de marché mobile <span class="src-tag">ARTP · T3 2024</span></h3>
+    <div class="table-wrap">
+      <table class="data-table" id="opMarketTable">
+        <thead><tr><th>Opérateur</th><th>Part de marché (abonnés)</th><th>Part du trafic voix sortant</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div id="opMarketBars" class="op-bars"></div>
+    <p class="note">📌 Marché mobile T3 2024 : <strong>23,26 millions</strong> d'abonnés mobiles, taux de pénétration <strong>128,3 %</strong> (plusieurs SIM par personne). Orange domine largement le trafic voix.</p>
+
+    <h3>Qualité de service par opérateur <span class="src-tag">Campagne ARTP nov. 2024 – mars 2025</span></h3>
+    <p class="section-intro">Conformité aux seuils réglementaires au niveau <strong>national</strong> (2G/3G/4G), par service.</p>
+    <div class="table-wrap">
+      <table class="data-table" id="opQosTable">
+        <thead><tr><th>Opérateur</th><th>Appels réussis</th><th>Délai &lt; 15 s</th><th>MOS (audio)</th><th>SMS</th><th>Data</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="qos-legend"><span class="ok-pill">✅ Conforme au seuil</span> <span class="ko-pill">❌ Non conforme</span></p>
+    <div class="callout">
+      <strong>Lecture :</strong> au national, les <strong>3 opérateurs</strong> échouent sur le <strong>délai d'établissement (&lt; 15 s)</strong> et le <strong>SMS</strong>. Les <strong>appels réussis</strong> et le <strong>MOS</strong> sont acceptables pour tous (Orange ayant le meilleur MOS). Côté <strong>data</strong>, seul <strong>Orange est conforme</strong> au national ; <strong>Yas et Expresso</strong> échouent (navigation web, téléchargement, téléversement). À <strong>Dakar</strong>, la data est conforme pour les trois.
+    </div>
+
+    <h3>Statut 5G</h3>
+    <div class="cards-grid">
+      <div class="card" style="cursor:default;border-left:4px solid #ff7900">
+        <h3>Orange (Sonatel)</h3>
+        <p>Exploite la <strong>5G commerciale</strong> au Sénégal.</p>
+      </div>
+      <div class="card" style="cursor:default;border-left:4px solid #e2001a">
+        <h3>Yas (ex-Free)</h3>
+        <p>Selon la presse (juillet 2025), <strong>licence 5G retirée</strong> par l'ARTP.</p>
+      </div>
+      <div class="card" style="cursor:default;border-left:4px solid #00a0e3">
+        <h3>Expresso</h3>
+        <p>Selon la presse (juillet 2025), <strong>licence 5G retirée</strong> par l'ARTP.</p>
+      </div>
+    </div>
+    <p class="note">⚠️ Données issues des publications de l'ARTP et de la presse (dates indiquées). Les chiffres et statuts évoluent — se référer aux <a href="https://artp.sn/observatoire/qualite-de-service" target="_blank" rel="noopener noreferrer">rapports officiels de l'ARTP</a> pour les valeurs à jour.</p>
   </section>
 
   <!-- CAS PRATIQUES -->
