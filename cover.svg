@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d47a1"/>
+      <stop offset="1" stop-color="#0f1b2d"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="600" fill="url(#bg)"/>
+
+  <!-- icône pylône + ondes -->
+  <g transform="translate(150 300)">
+    <path d="M0 -80 L-40 80 H40 Z" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round"/>
+    <line x1="-25" y1="20" x2="25" y2="20" stroke="#fff" stroke-width="4"/>
+    <line x1="-15" y1="-20" x2="15" y2="-20" stroke="#fff" stroke-width="4"/>
+    <circle cx="0" cy="-80" r="9" fill="#fff"/>
+    <path d="M-70 -85 a40 40 0 0 0 0 50" fill="none" stroke="#42a5f5" stroke-width="5" stroke-linecap="round"/>
+    <path d="M70 -85 a40 40 0 0 1 0 50" fill="none" stroke="#42a5f5" stroke-width="5" stroke-linecap="round"/>
+    <path d="M-100 -100 a60 60 0 0 0 0 80" fill="none" stroke="#90caf9" stroke-width="4" stroke-linecap="round"/>
+    <path d="M100 -100 a60 60 0 0 1 0 80" fill="none" stroke="#90caf9" stroke-width="4" stroke-linecap="round"/>
+  </g>
+
+  <!-- titre -->
+  <text x="320" y="250" fill="#ffffff" font-size="64" font-weight="800">Réseau Télécom</text>
+  <text x="322" y="305" fill="#90caf9" font-size="30" font-weight="600">Guide interactif d'analyse &amp; de diagnostic — 2G → 5G</text>
+
+  <!-- chips fonctionnalités -->
+  <g font-size="22" font-weight="600">
+    <g transform="translate(322 360)"><rect width="120" height="46" rx="23" fill="#1e88e5"/><text x="60" y="30" fill="#fff" text-anchor="middle">KPI</text></g>
+    <g transform="translate(456 360)"><rect width="150" height="46" rx="23" fill="#1e88e5"/><text x="75" y="30" fill="#fff" text-anchor="middle">Alarmes</text></g>
+    <g transform="translate(620 360)"><rect width="180" height="46" rx="23" fill="#1e88e5"/><text x="90" y="30" fill="#fff" text-anchor="middle">Diagnostic</text></g>
+    <g transform="translate(814 360)"><rect width="110" height="46" rx="23" fill="#1e88e5"/><text x="55" y="30" fill="#fff" text-anchor="middle">Quiz</text></g>
+    <g transform="translate(322 420)"><rect width="200" height="46" rx="23" fill="#2ea043"/><text x="100" y="30" fill="#fff" text-anchor="middle">Optimisation</text></g>
+    <g transform="translate(536 420)"><rect width="220" height="46" rx="23" fill="#2ea043"/><text x="110" y="30" fill="#fff" text-anchor="middle">Données ARTP</text></g>
+    <g transform="translate(770 420)"><rect width="240" height="46" rx="23" fill="#8e24aa"/><text x="120" y="30" fill="#fff" text-anchor="middle">PWA hors-ligne</text></g>
+  </g>
+
+  <!-- url -->
+  <text x="322" y="515" fill="#c7d2e0" font-size="24">kheuch1492.github.io/reseau-telecom</text>
+</svg>

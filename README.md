@@ -1,10 +1,21 @@
 # 📡 Réseau Télécom — Guide d'analyse & diagnostic
 
+![Aperçu du site](cover.svg)
+
+[![Demo en ligne](https://img.shields.io/badge/demo-en%20ligne-1e88e5)](https://kheuch1492.github.io/reseau-telecom/)
+![HTML CSS JS](https://img.shields.io/badge/HTML%20%7C%20CSS%20%7C%20JS-vanilla-orange)
+![PWA](https://img.shields.io/badge/PWA-installable%20%26%20hors--ligne-2ea043)
+![Sans dépendance](https://img.shields.io/badge/dépendances-0-lightgrey)
+
 ### 🌐 Site en ligne : **https://kheuch1492.github.io/reseau-telecom/**
 
 Site de référence interactif pour l'**analyse et le diagnostic de réseau télécom** : métier d'analyste réseau, outils OSS (NetAct / U2020), commandes MML, alarmes, processus de résolution d'incident, KPI, optimisation radio, cas pratiques, quiz de révision et préparation à l'entretien.
 
 > Outil personnel de travail et de révision (transition profil BI → analyse de réseau radio / performance télécom).
+
+## 🖼️ Aperçu
+
+> 💡 Pour une capture d'écran réelle : ouvre le site, fais une capture, enregistre-la sous `docs/screenshot.png` puis remplace `cover.svg` ci-dessus par `docs/screenshot.png`.
 
 ## ✨ Contenu
 
