@@ -2,9 +2,10 @@
 Thumbs.db
 .DS_Store
 
-# Éditeurs
+# Éditeurs / outils
 .vscode/
 .idea/
+.claude/
 
 # Logs / divers
 *.log
