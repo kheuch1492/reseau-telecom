@@ -16,8 +16,14 @@
 </head>
 <body>
 
+<!-- Barre de progression de lecture -->
+<div id="readingProgress" class="reading-progress"></div>
+
 <!-- Bouton menu mobile -->
 <button id="menuToggle" class="menu-toggle" aria-label="Menu">☰</button>
+
+<!-- Bouton retour en haut -->
+<button id="backToTop" class="back-to-top" aria-label="Retour en haut">↑</button>
 
 <!-- BARRE LATÉRALE -->
 <aside class="sidebar" id="sidebar">
@@ -52,6 +58,7 @@
     <a href="#kpi" class="nav-link">📊 KPI essentiels</a>
     <a href="#calc" class="nav-link">🧮 Calculateur KPI</a>
     <a href="#optim" class="nav-link">🎚️ Optimisation radio</a>
+    <a href="#dimensionnement" class="nav-link">📐 Dimensionnement</a>
     <a href="#son" class="nav-link">🤖 SON & Automatisation</a>
     <a href="#drive" class="nav-link">🚗 Drive Test</a>
     <a href="#qos" class="nav-link">📋 Couverture & QoS (ARTP)</a>
@@ -65,6 +72,7 @@
     <a href="#glossaire" class="nav-link">📖 Glossaire</a>
     <a href="#ressources" class="nav-link">📚 Ressources & progression</a>
     <a href="#certifs" class="nav-link">🎓 Certifications</a>
+    <a href="#apropos" class="nav-link">👤 À propos</a>
   </nav>
 
   <div class="sidebar-footer">
@@ -639,6 +647,47 @@
     </div>
   </section>
 
+  <!-- DIMENSIONNEMENT & CAPACITÉ -->
+  <section id="dimensionnement" class="section">
+    <h2 class="section-title">📐 Dimensionnement & capacité</h2>
+    <p class="section-intro">Le dimensionnement répond à : « <strong>combien de ressources faut-il</strong> pour absorber le trafic prévu, à la qualité visée ? » C'est le pendant « planification » de l'analyse de saturation.</p>
+
+    <h3>Voix vs Data : deux logiques</h3>
+    <div class="tool-cards">
+      <div class="tool-card" style="border-top-color:#2ea043">
+        <div class="tool-head"><span class="tool-badge" style="background:#2ea043">Voix</span><h3>Modèle d'Erlang</h3></div>
+        <p>Le trafic voix se mesure en <strong>Erlang</strong> (1 Erlang = 1 canal occupé en permanence). On dimensionne le nombre de canaux avec la formule d'<strong>Erlang B</strong> selon le trafic et le taux de blocage visé.</p>
+        <ul class="tool-list">
+          <li><strong>Trafic (Erlang)</strong> = appels/h × durée moyenne</li>
+          <li><strong>GoS</strong> (Grade of Service) : taux de blocage cible, ex. 2 %</li>
+          <li>Plus de canaux → moins de blocage</li>
+        </ul>
+      </div>
+      <div class="tool-card" style="border-top-color:var(--primary)">
+        <div class="tool-head"><span class="tool-badge">Data</span><h3>Débit & PRB</h3></div>
+        <p>La data se dimensionne sur le <strong>débit</strong> et l'occupation des <strong>PRB</strong>. On estime le débit demandé aux heures de pointe et on vérifie que la cellule (bande passante, PRB) peut le fournir.</p>
+        <ul class="tool-list">
+          <li><strong>Débit cible/abonné</strong> × nb abonnés actifs</li>
+          <li><strong>PRB Utilization</strong> &lt; 70 % visé</li>
+          <li>Au-delà → ajouter porteuse / site</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>La démarche de dimensionnement</h3>
+    <div class="activity-grid">
+      <div class="activity"><span class="activity-num">1</span><div><strong>Prévoir le trafic</strong><p>Estimer le trafic voix (Erlang) et data (Mbps) à l'heure chargée, avec la croissance.</p></div></div>
+      <div class="activity"><span class="activity-num">2</span><div><strong>Fixer la qualité visée</strong><p>Taux de blocage (GoS), débit minimal par abonné, PRB cible.</p></div></div>
+      <div class="activity"><span class="activity-num">3</span><div><strong>Calculer les ressources</strong><p>Nombre de canaux/porteuses, bande passante, nombre de cellules/sites.</p></div></div>
+      <div class="activity"><span class="activity-num">4</span><div><strong>Vérifier & ajuster</strong><p>Comparer aux KPI réels (PRB, blocage) et redimensionner si saturation.</p></div></div>
+    </div>
+
+    <div class="callout">
+      <strong>🔗 Lien avec l'analyse :</strong> quand un cas montre un <strong>PRB à 98 %</strong> ou un blocage d'appels, c'est un <strong>problème de dimensionnement</strong> — la cellule est sous-dimensionnée pour son trafic. La solution (porteuse, site, load balancing) est une décision de capacité.
+    </div>
+    <p class="note">💡 Ton profil data est utile ici : prévision de trafic, analyse de tendance et modélisation de la croissance pour anticiper les besoins de capacité.</p>
+  </section>
+
   <!-- SON & AUTOMATISATION -->
   <section id="son" class="section">
     <h2 class="section-title">🤖 SON, automatisation & AIOps</h2>
@@ -1069,6 +1118,49 @@
     <div class="callout">
       L'idée : les étapes 1-2 comblent ton manque télécom, l'étape 3 met en avant ce que tu sais déjà faire. C'est la combinaison <strong>« data + réseau »</strong> qui est rare et recherchée.
     </div>
+  </section>
+
+  <!-- À PROPOS / PROFIL -->
+  <section id="apropos" class="section">
+    <h2 class="section-title">👤 À propos</h2>
+    <!-- ✏️ À PERSONNALISER : remplace les [crochets] par tes infos (nom, liens) -->
+    <div class="profile">
+      <div class="profile-avatar">📡</div>
+      <div class="profile-body">
+        <h3 class="profile-name">[Ton nom]</h3>
+        <p class="profile-role">Profil BI en transition vers l'analyse de réseau radio / performance télécom</p>
+        <p class="profile-pitch">Analyste de données (Business Intelligence) qui se spécialise dans la <strong>performance des réseaux mobiles</strong> : exploitation des KPI, diagnostic d'incidents, optimisation et reporting. Ce site est à la fois mon outil de travail et le reflet de ma montée en compétence « data + réseau ».</p>
+      </div>
+    </div>
+
+    <h3>Compétences</h3>
+    <div class="skills">
+      <div class="skill-group">
+        <h4>📊 Data / BI</h4>
+        <div class="tag-list">
+          <span class="tag">SQL</span><span class="tag">Power BI</span><span class="tag">Python</span><span class="tag">Excel</span><span class="tag">Dashboards</span><span class="tag">Analyse d'anomalies</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h4>📡 Réseau télécom (en montée)</h4>
+        <div class="tag-list">
+          <span class="tag">KPI (CSSR, DCR, PRB…)</span><span class="tag">Alarmes & diagnostic</span><span class="tag">OSS (NetAct / U2020)</span><span class="tag">Optimisation radio</span><span class="tag">2G→5G</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Objectif</h3>
+    <div class="callout">
+      Décrocher un poste d'<strong>analyste réseau / ingénieur performance radio</strong>, en combinant mes acquis en analyse de données avec les KPI et outils télécom. Parcours de certification visé : <strong>HCIA-5G</strong> puis HCIP.
+    </div>
+
+    <h3>Me contacter</h3>
+    <div class="contact-links">
+      <a class="contact-btn" href="[lien-linkedin]" target="_blank" rel="noopener noreferrer">💼 LinkedIn</a>
+      <a class="contact-btn" href="[lien-cv]" target="_blank" rel="noopener noreferrer">📄 Mon CV</a>
+      <a class="contact-btn" href="mailto:[ton-email]">✉️ Email</a>
+    </div>
+    <p class="note">✏️ Pense à remplacer les champs entre [crochets] dans <code>index.html</code> (section « À propos ») par ton nom et tes vrais liens. ⚠️ Le site étant public, n'y mets que les coordonnées que tu acceptes de rendre visibles.</p>
   </section>
 
   <footer class="site-footer">

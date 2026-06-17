@@ -628,6 +628,26 @@ body.dark #mappingTable td:nth-child(3) { color: #5b9bff; }
 .figure-label { font-size: 13px; font-weight: 600; margin-top: 4px; }
 .figure-sub { font-size: 11px; color: var(--text-soft); margin-top: 4px; }
 
+/* ===== Barre de progression + retour en haut ===== */
+.reading-progress { position: fixed; top: 0; left: 0; height: 3px; width: 0; background: linear-gradient(90deg, #42a5f5, #1e88e5); z-index: 400; transition: width .1s; }
+.back-to-top { position: fixed; bottom: 24px; right: 24px; width: 46px; height: 46px; border-radius: 50%; border: none; background: var(--primary); color: #fff; font-size: 20px; cursor: pointer; box-shadow: var(--shadow-lg); opacity: 0; pointer-events: none; transform: translateY(12px); transition: all .25s; z-index: 350; }
+.back-to-top.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.back-to-top:hover { background: var(--primary-dark); }
+
+/* ===== Profil / À propos ===== */
+.profile { display: flex; gap: 20px; align-items: center; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); margin-bottom: 8px; }
+.profile-avatar { flex-shrink: 0; width: 84px; height: 84px; border-radius: 50%; background: linear-gradient(135deg,#1e88e5,#0d47a1); display: flex; align-items: center; justify-content: center; font-size: 40px; }
+.profile-name { font-size: 22px; margin-bottom: 2px; }
+.profile-role { color: var(--primary); font-weight: 600; font-size: 14px; margin-bottom: 8px; }
+.profile-pitch { font-size: 14px; color: var(--text-soft); }
+.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 16px; }
+.skill-group { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); }
+.skill-group h4 { font-size: 14px; margin-bottom: 10px; }
+.contact-links { display: flex; flex-wrap: wrap; gap: 12px; }
+.contact-btn { display: inline-block; padding: 11px 20px; border-radius: 10px; background: var(--primary); color: #fff; text-decoration: none; font-weight: 600; font-size: 14px; transition: all .15s; }
+.contact-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
+@media (max-width: 600px) { .profile { flex-direction: column; text-align: center; } }
+
 /* ===== Footer ===== */
 .site-footer { text-align: center; color: var(--text-soft); font-size: 13px; padding-top: 40px; border-top: 1px solid var(--border); }
 

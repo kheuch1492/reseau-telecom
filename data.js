@@ -301,7 +301,27 @@ const SEARCH_INDEX = [
   { t: "Commandes MML détaillées (syntaxe + sortie)", c: "MML", h: "#mml" },
   { t: "Préparation entretien analyste réseau", c: "Entretien", h: "#entretien" },
   { t: "Questions réponses entretien KPI alarmes", c: "Entretien", h: "#entretien" },
-  { t: "KPI seuils cibles et formules", c: "KPI", h: "#kpi" }
+  { t: "KPI seuils cibles et formules", c: "KPI", h: "#kpi" },
+  { t: "Transmission backhaul fibre faisceau hertzien", c: "Transmission", h: "#transmission" },
+  { t: "Topologie anneau étoile chaîne", c: "Transmission", h: "#transmission" },
+  { t: "Voix 4G 5G VoLTE VoNR IMS CSFB", c: "Voix", h: "#voix" },
+  { t: "SRVCC EPS Fallback voix sur IP", c: "Voix", h: "#voix" },
+  { t: "SON automatisation self-healing AIOps", c: "SON", h: "#son" },
+  { t: "Self-Optimization ANR MLB MRO CCO", c: "SON", h: "#son" },
+  { t: "Drive Test mesure terrain RSRP SINR", c: "Drive Test", h: "#drive" },
+  { t: "Seuils Drive Test par techno 2G 3G 4G 5G", c: "Drive Test", h: "#drive" },
+  { t: "RxLevel RSCP RSRP SS-RSRP RxQual EcNo RSRQ", c: "Drive Test", h: "#drive" },
+  { t: "Couverture QoS régulateur ARTP Sénégal", c: "QoS / ARTP", h: "#qos" },
+  { t: "MOS taux réussite appel délai établissement", c: "QoS / ARTP", h: "#qos" },
+  { t: "Comparatif opérateurs Orange Yas Expresso", c: "Opérateurs", h: "#operateurs" },
+  { t: "Parts de marché QoS par opérateur 5G", c: "Opérateurs", h: "#operateurs" },
+  { t: "Marché télécom détaillé abonnés pénétration", c: "Marché", h: "#marche" },
+  { t: "Chiffres ARTP trafic voix Internet mobile", c: "Marché", h: "#marche" },
+  { t: "Dimensionnement capacité Erlang trafic", c: "Dimensionnement", h: "#dimensionnement" },
+  { t: "Simulateur NOC tri d'alarmes chronométré", c: "Outils", h: "#sim" },
+  { t: "Calculateur de KPI CSSR DCR", c: "Outils", h: "#calc" },
+  { t: "Flashcards révision glossaire MML", c: "Révision", h: "#flash" },
+  { t: "À propos profil BI vers réseau", c: "À propos", h: "#apropos" }
 ];
 
 /* ============================================================

@@ -5,6 +5,20 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+  /* ---------- Barre de progression de lecture + retour en haut ---------- */
+  const progressBar = document.getElementById('readingProgress');
+  const backToTop = document.getElementById('backToTop');
+  function onScroll() {
+    const h = document.documentElement;
+    const scrolled = h.scrollTop;
+    const max = h.scrollHeight - h.clientHeight;
+    if (progressBar) progressBar.style.width = max > 0 ? (scrolled / max * 100) + '%' : '0%';
+    if (backToTop) backToTop.classList.toggle('show', scrolled > 500);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+  if (backToTop) backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
   /* ---------- Service Worker (mode hors-ligne / PWA) ---------- */
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
