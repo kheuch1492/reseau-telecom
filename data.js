@@ -969,3 +969,22 @@ const RESOURCES = [
   { cat: "Planification", title: "Forsk — Atoll", url: "https://www.forsk.com/atoll-overview", desc: "L'outil de planification radio le plus répandu." },
   { cat: "Data", title: "Python — pandas", url: "https://pandas.pydata.org/docs/", desc: "Pour automatiser l'analyse des KPI et logs réseau." }
 ];
+
+/* ============================================================
+   Seuils Drive Test par technologie (valeurs INDICATIVES)
+   Les seuils exacts dépendent de l'opérateur / du régulateur
+   (ex. ARTP Décision 2021-002).
+   ============================================================ */
+const DT_SERVICE = [
+  { gen: "2G", cls: "gen-2g", cssr: "≥ 98 %", dcr: "≤ 2 %", setup: "< 15 s", mos: "≥ 3,0", dl: "0,1 – 0,3 Mbps (GPRS/EDGE)" },
+  { gen: "3G", cls: "gen-3g", cssr: "≥ 98 %", dcr: "≤ 2 %", setup: "< 15 s", mos: "≥ 3,5", dl: "2 – 42 Mbps (HSPA)" },
+  { gen: "4G", cls: "gen-4g", cssr: "≥ 98 % (VoLTE)", dcr: "≤ 2 %", setup: "< 15 s", mos: "≥ 3,8", dl: "≥ 10 Mbps (jusqu'à 100+)" },
+  { gen: "5G", cls: "gen-5g", cssr: "≥ 98 % (VoNR/VoLTE)", dcr: "≤ 1–2 %", setup: "< 15 s", mos: "≥ 4,0", dl: "≥ 100 Mbps (jusqu'au Gbps)" }
+];
+
+const DT_RADIO = [
+  { gen: "2G", cls: "gen-2g", covName: "RxLevel", covGood: "≥ -85 dBm", covBad: "< -100 dBm", qualName: "RxQual (0–7)", qualGood: "0 – 3", qualBad: "6 – 7" },
+  { gen: "3G", cls: "gen-3g", covName: "RSCP", covGood: "≥ -85 dBm", covBad: "< -100 dBm", qualName: "Ec/No", qualGood: "≥ -9 dB", qualBad: "< -13 dB" },
+  { gen: "4G", cls: "gen-4g", covName: "RSRP", covGood: "≥ -95 dBm", covBad: "< -115 dBm", qualName: "RSRQ / SINR", qualGood: "RSRQ ≥ -10 dB · SINR ≥ 13 dB", qualBad: "RSRQ < -16 · SINR < 0" },
+  { gen: "5G", cls: "gen-5g", covName: "SS-RSRP", covGood: "≥ -95 dBm", covBad: "< -115 dBm", qualName: "SS-RSRQ / SS-SINR", qualGood: "SS-SINR ≥ 13 dB", qualBad: "SS-SINR < 0 dB" }
+];

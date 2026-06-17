@@ -696,6 +696,26 @@
       <strong>💡 Lecture croisée :</strong> un <strong>RSRP correct mais SINR faible</strong> = bonne puissance mais <strong>interférences</strong> (à traiter par fréquences/tilt). Un <strong>RSRP faible</strong> = trou de <strong>couverture</strong> (puissance, azimut, nouveau site).
     </div>
 
+    <h3>Seuils par technologie (2G → 5G)</h3>
+    <p class="section-intro">Les cibles utilisées pour juger une mesure Drive Test. <strong>Valeurs indicatives</strong> : les seuils exacts dépendent de l'opérateur et du régulateur (ex. ARTP Décision 2021-002).</p>
+
+    <h4 class="sub-h">📞 KPI de service</h4>
+    <div class="table-wrap">
+      <table class="data-table" id="dtServiceTable">
+        <thead><tr><th>Techno</th><th>CSSR (réussite)</th><th>DCR (coupure)</th><th>Délai établ.</th><th>MOS (voix)</th><th>Débit DL indicatif</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h4 class="sub-h">📶 Métriques radio (couverture & qualité)</h4>
+    <div class="table-wrap">
+      <table class="data-table" id="dtRadioTable">
+        <thead><tr><th>Techno</th><th>Couverture</th><th>Bon</th><th>Mauvais</th><th>Qualité</th><th>Bon</th><th>Mauvais</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p class="note">💡 Les <strong>noms changent selon la génération</strong> : couverture = RxLevel (2G) → RSCP (3G) → RSRP (4G) → SS-RSRP (5G) ; qualité = RxQual → Ec/No → RSRQ/SINR → SS-SINR. Mais CSSR et DCR gardent la même logique partout.</p>
+
     <h3>Les outils de Drive Test</h3>
     <div class="tag-list">
       <span class="tag">TEMS (Infovista)</span>

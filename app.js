@@ -585,6 +585,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* ---------- Seuils Drive Test par techno ---------- */
+  const dtServiceBody = document.querySelector('#dtServiceTable tbody');
+  if (dtServiceBody && typeof DT_SERVICE !== 'undefined') {
+    dtServiceBody.innerHTML = DT_SERVICE.map(d => `
+      <tr>
+        <td><span class="gen-badge ${d.cls}">${d.gen}</span></td>
+        <td><span class="kpi-target">${d.cssr}</span></td>
+        <td><span class="kpi-target">${d.dcr}</span></td>
+        <td>${d.setup}</td><td>${d.mos}</td><td>${d.dl}</td>
+      </tr>`).join('');
+  }
+  const dtRadioBody = document.querySelector('#dtRadioTable tbody');
+  if (dtRadioBody && typeof DT_RADIO !== 'undefined') {
+    dtRadioBody.innerHTML = DT_RADIO.map(d => `
+      <tr>
+        <td><span class="gen-badge ${d.cls}">${d.gen}</span></td>
+        <td><code>${d.covName}</code></td>
+        <td style="color:#2ea043;font-weight:600">${d.covGood}</td>
+        <td style="color:var(--critical);font-weight:600">${d.covBad}</td>
+        <td><code>${d.qualName}</code></td>
+        <td style="color:#2ea043;font-weight:600">${d.qualGood}</td>
+        <td style="color:var(--critical);font-weight:600">${d.qualBad}</td>
+      </tr>`).join('');
+  }
+
   /* ---------- Simulateur NOC (tri d'alarmes chronométré) ---------- */
   if (typeof SIM_ALARMS !== 'undefined') {
     const simStart = document.getElementById('simStart');

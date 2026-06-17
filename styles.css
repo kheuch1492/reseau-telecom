@@ -604,6 +604,8 @@ body.dark #mappingTable td:nth-child(3) { color: #5b9bff; }
 .qos-card li:last-child { border: none; }
 .qos-card strong { color: var(--text); }
 
+.sub-h { font-size: 15px; margin: 18px 0 8px; color: var(--text-soft); }
+
 /* ===== Footer ===== */
 .site-footer { text-align: center; color: var(--text-soft); font-size: 13px; padding-top: 40px; border-top: 1px solid var(--border); }
 
