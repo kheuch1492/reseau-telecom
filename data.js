@@ -321,7 +321,9 @@ const SEARCH_INDEX = [
   { t: "Simulateur NOC tri d'alarmes chronométré", c: "Outils", h: "#sim" },
   { t: "Calculateur de KPI CSSR DCR", c: "Outils", h: "#calc" },
   { t: "Flashcards révision glossaire MML", c: "Révision", h: "#flash" },
-  { t: "À propos profil BI vers réseau", c: "À propos", h: "#apropos" }
+  { t: "À propos profil BI vers réseau", c: "À propos", h: "#apropos" },
+  { t: "Cœur de réseau Core CS PS EPC 5GC", c: "Cœur", h: "#core" },
+  { t: "MSC HLR HSS MME AMF UPF SGSN GGSN", c: "Cœur", h: "#core" }
 ];
 
 /* ============================================================
@@ -473,7 +475,16 @@ const GLOSSARY = [
   { term: "SON", def: "Self-Organizing Network — automatisation de l'optimisation du réseau.", cat: "Organisation" },
   { term: "FH", def: "Faisceau Hertzien — liaison radio point-à-point entre deux sites (alternative à la fibre).", cat: "Transmission" },
   { term: "Feeder", def: "Câble reliant la radio à l'antenne. Un défaut de feeder déclenche souvent une alarme VSWR.", cat: "Équipement" },
-  { term: "Shelter", def: "Local technique abritant les équipements d'un site (avec climatisation, batteries).", cat: "Équipement" }
+  { term: "Shelter", def: "Local technique abritant les équipements d'un site (avec climatisation, batteries).", cat: "Équipement" },
+  { term: "CS", def: "Circuit Switched — domaine voix/SMS historique : un circuit dédié est réservé pendant l'appel (2G/3G).", cat: "Cœur" },
+  { term: "PS", def: "Packet Switched — domaine data : l'information circule en paquets (comme Internet).", cat: "Cœur" },
+  { term: "MSC", def: "Mobile Switching Center — le commutateur d'appels voix du cœur CS (2G/3G).", cat: "Cœur" },
+  { term: "HLR / HSS / UDM", def: "Base des abonnés (profils, droits) : HLR (2G/3G), HSS (4G), UDM (5G).", cat: "Cœur" },
+  { term: "MME / AMF", def: "Gèrent l'attachement, la signalisation et la mobilité : MME (4G EPC), AMF (5GC).", cat: "Cœur" },
+  { term: "S-GW / P-GW / UPF", def: "Plan utilisateur (transport des données) : passerelles EPC (4G), UPF (5G).", cat: "Cœur" },
+  { term: "EPC", def: "Evolved Packet Core — le cœur de réseau 4G, entièrement IP (MME, S-GW, P-GW, HSS).", cat: "Cœur" },
+  { term: "5GC", def: "5G Core — cœur 5G cloud-native en architecture par services (SBA) : AMF, SMF, UPF…", cat: "Cœur" },
+  { term: "IMS", def: "IP Multimedia Subsystem — sous-système qui gère la voix en IP (VoLTE/VoNR).", cat: "Cœur" }
 ];
 
 /* ============================================================
@@ -787,6 +798,18 @@ const QUIZ = [
     options: ["Par SMS", "En IP via VoLTE / VoNR", "Par satellite", "Elle ne passe pas"],
     correct: 1,
     explain: "La voix est portée en IP (VoLTE en 4G, VoNR en 5G). Sans VoLTE, le mobile bascule en 2G/3G pour appeler (CSFB)."
+  },
+  {
+    q: "Un problème de cœur de réseau (Core) a généralement un impact…",
+    options: ["Limité à une seule cellule", "Large (régional, des milliers d'abonnés)", "Nul", "Uniquement sur les SMS"],
+    correct: 1,
+    explain: "Le cœur est centralisé : sa défaillance touche une large zone, contrairement à une panne radio localisée à une cellule."
+  },
+  {
+    q: "Dans le cœur 4G (EPC), quel nœud gère la signalisation et la mobilité ?",
+    options: ["UPF", "MME", "MSC", "RRU"],
+    correct: 1,
+    explain: "Le MME (Mobility Management Entity) gère l'attachement, la signalisation et la mobilité en 4G. L'équivalent 5G est l'AMF."
   }
 ];
 

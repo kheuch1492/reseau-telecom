@@ -46,6 +46,7 @@
     <a href="#archi" class="nav-link">🏗️ Architecture réseau</a>
     <a href="#transmission" class="nav-link">🔗 Transmission</a>
     <a href="#generations" class="nav-link">📶 Générations & 5G</a>
+    <a href="#core" class="nav-link">🧠 Cœur de réseau</a>
     <a href="#voix" class="nav-link">📞 Voix 4G/5G (VoLTE)</a>
     <a href="#outils" class="nav-link">🛠️ Outils (NetAct / U2020)</a>
     <a href="#boite" class="nav-link">🧰 Boîte à outils</a>
@@ -262,6 +263,60 @@
 
     <h3>🆕 Focus 5G — ce que les recruteurs aiment entendre</h3>
     <div class="fiveg-grid" id="fivegGrid"></div>
+  </section>
+
+  <!-- CŒUR DE RÉSEAU -->
+  <section id="core" class="section">
+    <h2 class="section-title">🧠 Le cœur de réseau (Core)</h2>
+    <p class="section-intro">Le cœur de réseau est le « cerveau central » derrière le RAN : il gère l'<strong>authentification</strong>, la <strong>mobilité</strong>, l'établissement des appels/sessions et le <strong>routage</strong> vers Internet et les autres opérateurs.</p>
+
+    <h3>Deux domaines historiques : CS &amp; PS</h3>
+    <div class="tool-cards">
+      <div class="tool-card" style="border-top-color:#2ea043">
+        <div class="tool-head"><span class="tool-badge" style="background:#2ea043">CS</span><h3>Circuit Switched</h3></div>
+        <p>Le domaine <strong>voix / SMS</strong> historique (2G/3G) : un <strong>circuit dédié</strong> est réservé pendant tout l'appel.</p>
+        <ul class="tool-list">
+          <li><strong>MSC</strong> — commutateur d'appels</li>
+          <li><strong>VLR</strong> — registre des abonnés visités</li>
+          <li><strong>GMSC</strong> — passerelle vers les autres réseaux</li>
+        </ul>
+      </div>
+      <div class="tool-card" style="border-top-color:var(--primary)">
+        <div class="tool-head"><span class="tool-badge">PS</span><h3>Packet Switched</h3></div>
+        <p>Le domaine <strong>data</strong> : l'information est découpée en <strong>paquets</strong> (comme Internet).</p>
+        <ul class="tool-list">
+          <li><strong>SGSN</strong> — gestion des sessions data (2G/3G)</li>
+          <li><strong>GGSN</strong> — passerelle data vers Internet</li>
+          <li>En 4G/5G : tout devient PS (tout-IP)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>L'évolution du cœur par génération</h3>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Génération</th><th>Cœur</th><th>Voix</th><th>Nœuds principaux</th><th>Base abonnés</th></tr></thead>
+        <tbody>
+          <tr><td><span class="gen-badge gen-2g">2G</span> / <span class="gen-badge gen-3g">3G</span></td><td>CS + PS</td><td>CS (circuit)</td><td><code>MSC</code> · <code>VLR</code> · <code>GMSC</code> · <code>SGSN</code> · <code>GGSN</code></td><td><code>HLR</code></td></tr>
+          <tr><td><span class="gen-badge gen-4g">4G</span></td><td>EPC (tout-IP)</td><td>VoLTE (IMS)</td><td><code>MME</code> · <code>S-GW</code> · <code>P-GW</code></td><td><code>HSS</code></td></tr>
+          <tr><td><span class="gen-badge gen-5g">5G</span></td><td>5GC (cloud-native, SBA)</td><td>VoNR (IMS)</td><td><code>AMF</code> · <code>SMF</code> · <code>UPF</code></td><td><code>UDM</code> / <code>AUSF</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Les nœuds clés</h3>
+    <div class="trans-notions">
+      <div class="notion"><strong>MSC</strong><p>Mobile Switching Center — commute les appels voix dans le domaine CS (2G/3G).</p></div>
+      <div class="notion"><strong>HLR / HSS / UDM</strong><p>La base des abonnés (profils, droits) : HLR en 2G/3G, HSS en 4G, UDM en 5G.</p></div>
+      <div class="notion"><strong>MME / AMF</strong><p>Gèrent la signalisation, l'attachement et la mobilité : MME en 4G, AMF en 5G.</p></div>
+      <div class="notion"><strong>S-GW + P-GW / UPF</strong><p>Le plan utilisateur (transport des données) : passerelles EPC en 4G, UPF en 5G.</p></div>
+      <div class="notion"><strong>IMS</strong><p>Sous-système IP qui gère la voix (VoLTE/VoNR) — voir la section Voix.</p></div>
+      <div class="notion"><strong>SBA (5G)</strong><p>Service-Based Architecture : le cœur 5G est un ensemble de fonctions logicielles (cloud-native) qui dialoguent par API.</p></div>
+    </div>
+
+    <div class="callout">
+      <strong>🎯 Côté analyste :</strong> un problème de <strong>cœur de réseau</strong> a un impact <strong>large</strong> (toute une région, des milliers d'abonnés) — contrairement à une panne radio limitée à une cellule. Les échecs d'<strong>attachement</strong>, d'<strong>authentification</strong> ou de <strong>session</strong> pointent souvent vers le cœur ou le lien <code>S1</code> (4G) / <code>N2</code> (5G).
+    </div>
   </section>
 
   <!-- VOIX 4G/5G -->
