@@ -323,7 +323,9 @@ const SEARCH_INDEX = [
   { t: "Flashcards révision glossaire MML", c: "Révision", h: "#flash" },
   { t: "À propos profil BI vers réseau", c: "À propos", h: "#apropos" },
   { t: "Cœur de réseau Core CS PS EPC 5GC", c: "Cœur", h: "#core" },
-  { t: "MSC HLR HSS MME AMF UPF SGSN GGSN", c: "Cœur", h: "#core" }
+  { t: "MSC HLR HSS MME AMF UPF SGSN GGSN", c: "Cœur", h: "#core" },
+  { t: "Incidents par domaine RAN Transmission Cœur IMS", c: "Incidents", h: "#incidents" },
+  { t: "VoLTE IMS registration SIP RTP SRVCC panne", c: "Incidents", h: "#incidents" }
 ];
 
 /* ============================================================
@@ -810,6 +812,18 @@ const QUIZ = [
     options: ["UPF", "MME", "MSC", "RRU"],
     correct: 1,
     explain: "Le MME (Mobility Management Entity) gère l'attachement, la signalisation et la mobilité en 4G. L'équivalent 5G est l'AMF."
+  },
+  {
+    q: "Un échec d'enregistrement VoLTE (impossible d'appeler) pointe d'abord vers…",
+    options: ["L'antenne", "L'IMS", "La batterie du site", "Le feeder"],
+    correct: 1,
+    explain: "La VoLTE repose sur l'enregistrement IMS (P-CSCF/S-CSCF) : un échec d'enregistrement vient généralement de l'IMS."
+  },
+  {
+    q: "En VoLTE, un appel établi mais sans audio (one-way) indique un problème de…",
+    options: ["Couverture", "Chemin média RTP / bearer dédié", "Licence", "Synchro GPS"],
+    correct: 1,
+    explain: "L'appel est établi (signalisation OK) mais le média ne passe pas : on regarde le chemin RTP et le bearer dédié (QCI 1)."
   }
 ];
 
@@ -1061,4 +1075,64 @@ const KEY_FIGURES = [
   { label: "Pénétration Internet mobile", value: "113,8 %", sub: "+1,89 pt" },
   { label: "Couverture 3G/4G/5G", value: "96,82 %", sub: "pénétration Internet mobile haut débit" },
   { label: "Trafic voix mobile", value: "10,23 Mds min", sub: "Orange 75,9 % · Yas 17,0 % · Expresso 4,3 %" }
+];
+
+/* ============================================================
+   Incidents par domaine — chaîne RAN → Transmission → Cœur → IMS
+   Chaque domaine : liste d'incidents {name, symptom, cause, action, esc}
+   ============================================================ */
+const DOMAIN_INCIDENTS = [
+  {
+    domain: "RAN (accès radio)", icon: "📡", color: "var(--primary)",
+    items: [
+      { name: "Cell / Site Unavailable", symptom: "Cellule ou site sans trafic", cause: "Panne radio, transmission ou énergie", action: "Identifier l'alarme racine, vérifier transmission/énergie/carte", esc: "Field / Transmission" },
+      { name: "RRU / CPRI Fault", symptom: "Un secteur down", cause: "Tête radio ou lien BBU-RRU défaillant", action: "DSP RRU, intervention terrain (RRU / fibre CPRI)", esc: "Field" },
+      { name: "VSWR", symptom: "Couverture réduite, DCR ↑", cause: "Feeder / antenne / connecteur (eau)", action: "Test feeder, remplacement connecteur/antenne", esc: "Field" },
+      { name: "Clock / GPS Sync Lost", symptom: "Handovers ratés, risque de coupure", cause: "Antenne GPS ou synchro transport perdue", action: "Restaurer la source d'horloge avant holdover", esc: "Field / Transport" },
+      { name: "Cell Congestion", symptom: "Débit faible aux heures de pointe", cause: "Saturation des PRB", action: "Activer une porteuse, load balancing, capacité", esc: "Optimisation" }
+    ]
+  },
+  {
+    domain: "Transmission (backhaul)", icon: "🔗", color: "var(--major)",
+    items: [
+      { name: "Fibre Cut / Link Failure", symptom: "Un ou plusieurs sites down", cause: "Coupure de fibre / lien agrégé", action: "PING, localiser la coupure, escalade urgente", esc: "Transmission (urgent)" },
+      { name: "FH dégradé (rain fading)", symptom: "Débit/qualité fluctuant avec la météo", cause: "Faisceau hertzien atténué par la pluie", action: "Vérifier alignement et marge du FH", esc: "Transmission" },
+      { name: "IP Path / SCTP Down", symptom: "Site déconnecté du cœur", cause: "Lien IP ou signalisation coupé", action: "DSP IPPATH / DSP SCTPLNK, vérifier le transport", esc: "Transport" },
+      { name: "Perte de synchro transport", symptom: "Handovers ratés, coupures", cause: "Synchro réseau (IEEE1588) perdue", action: "Restaurer la source de synchronisation", esc: "Transport" }
+    ]
+  },
+  {
+    domain: "Cœur CS (voix 2G/3G)", icon: "☎️", color: "#2ea043",
+    items: [
+      { name: "MSC Failure / Overload", symptom: "Appels voix échouent sur une large zone", cause: "Panne ou saturation du MSC", action: "Basculer sur la redondance, escalade cœur", esc: "Core / Vendeur" },
+      { name: "HLR / VLR Issue", symptom: "Abonnés non localisables, échec d'enregistrement", cause: "Base abonnés (HLR) ou signalisation", action: "Vérifier HLR/VLR, escalade cœur", esc: "Core" },
+      { name: "SS7 Signalling Link Down", symptom: "Échecs d'établissement, itinérance KO", cause: "Lien de signalisation SS7", action: "Vérifier les liens signalisation", esc: "Core / Transmission" }
+    ]
+  },
+  {
+    domain: "Cœur EPC (4G)", icon: "🧠", color: "var(--primary)",
+    items: [
+      { name: "MME Overload / Failure", symptom: "Échecs d'attachement massifs", cause: "Panne ou saturation du MME", action: "Redistribuer la charge, escalade cœur", esc: "Core" },
+      { name: "S-GW / P-GW Issue", symptom: "Pas de data, sessions PDN échouent", cause: "Passerelle data ou APN", action: "Vérifier S-GW/P-GW, APN, escalade cœur", esc: "Core" },
+      { name: "HSS / Diameter Auth Failure", symptom: "Authentification refusée, abonnés rejetés", cause: "HSS ou signalisation Diameter", action: "Vérifier HSS / Diameter, escalade cœur", esc: "Core" },
+      { name: "S1 Interface Failure", symptom: "Site(s) déconnecté(s) du cœur", cause: "Lien S1 (transmission ou config)", action: "DSP S1INTERFACE, vérifier le transport", esc: "Transport / Core" }
+    ]
+  },
+  {
+    domain: "Cœur 5GC (5G)", icon: "🌐", color: "#8e24aa",
+    items: [
+      { name: "AMF Registration Failure", symptom: "Échec d'enregistrement 5G", cause: "AMF ou interface N2", action: "Vérifier AMF / N2, escalade cœur", esc: "Core" },
+      { name: "SMF / UPF Session Failure", symptom: "Pas de data 5G", cause: "SMF ou UPF (plan utilisateur)", action: "Vérifier SMF/UPF, escalade cœur", esc: "Core" },
+      { name: "N2 / N3 Interface Issue", symptom: "gNodeB déconnecté ou pas de data", cause: "Lien N2 (signalisation) / N3 (données)", action: "Vérifier le transport N2/N3", esc: "Transport / Core" }
+    ]
+  },
+  {
+    domain: "Voix IMS (VoLTE / VoNR)", icon: "📞", color: "#e2001a",
+    items: [
+      { name: "IMS Registration Failure", symptom: "VoLTE indisponible, aucun appel", cause: "Enregistrement IMS (P-CSCF / S-CSCF)", action: "Vérifier l'enregistrement IMS, escalade IMS", esc: "Core / IMS" },
+      { name: "VoLTE Call Setup Failure (SIP)", symptom: "Échec d'établissement d'appel VoLTE", cause: "Signalisation SIP / IMS", action: "Analyser la signalisation SIP, escalade IMS", esc: "IMS" },
+      { name: "One-way / No Audio (RTP)", symptom: "Appel sans son ou audio unidirectionnel", cause: "Chemin média RTP / bearer dédié (QCI 1)", action: "Vérifier le bearer dédié et le média", esc: "Core / IMS" },
+      { name: "SRVCC / CSFB Failure", symptom: "Coupure en quittant la 4G, appel raté", cause: "Réglage SRVCC / CSFB", action: "Ajuster les paramètres de bascule", esc: "Optimisation / Core" }
+    ]
+  }
 ];

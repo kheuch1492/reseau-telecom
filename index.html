@@ -54,6 +54,7 @@
     <a href="#alarmes" class="nav-link">🚨 Alarmes fréquentes</a>
     <a href="#mapping" class="nav-link">🔀 Alarmes Huawei↔Nokia</a>
     <a href="#process" class="nav-link">🔄 Résolution d'incident</a>
+    <a href="#incidents" class="nav-link">🧯 Incidents par domaine</a>
     <a href="#arbres" class="nav-link">🌳 Arbres de décision</a>
     <a href="#sim" class="nav-link">🎮 Simulateur NOC</a>
     <a href="#kpi" class="nav-link">📊 KPI essentiels</a>
@@ -629,6 +630,22 @@
       <div class="ticket-row"><span class="ticket-label">Action</span><span>Correction appliquée + équipe intervenante</span></div>
       <div class="ticket-row"><span class="ticket-label">Statut</span><span>Ouvert → En cours → Résolu → Clôturé</span></div>
       <div class="ticket-row"><span class="ticket-label">Vérification</span><span>Preuve du rétablissement (cellule UP, KPI remontés)</span></div>
+    </div>
+  </section>
+
+  <!-- INCIDENTS PAR DOMAINE -->
+  <section id="incidents" class="section">
+    <h2 class="section-title">🧯 Alarmes & incidents par domaine</h2>
+    <p class="section-intro">Le catalogue des incidents typiques le long de la chaîne <strong>RAN → Transmission → Cœur (CS / EPC / 5GC) → Voix (IMS)</strong>, avec pour chacun : <strong>symptôme → cause probable → action & escalade</strong>.</p>
+    <div class="chain-flow">
+      <span class="chain-step">📡 RAN</span><span class="chain-arrow">→</span>
+      <span class="chain-step">🔗 Transmission</span><span class="chain-arrow">→</span>
+      <span class="chain-step">🧠 Cœur</span><span class="chain-arrow">→</span>
+      <span class="chain-step">📞 Voix IMS</span>
+    </div>
+    <div id="incidentsDomains"></div>
+    <div class="callout">
+      <strong>🎯 Règle de localisation :</strong> l'<strong>étendue</strong> de l'impact oriente le domaine. Une cellule → RAN. Plusieurs sites d'un coup → Transmission. Une région entière / un service (voix, data) → Cœur ou IMS.
     </div>
   </section>
 

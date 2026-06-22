@@ -650,6 +650,15 @@ body.dark #mappingTable td:nth-child(3) { color: #5b9bff; }
 .contact-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
 @media (max-width: 600px) { .profile { flex-direction: column; text-align: center; } }
 
+/* ===== Incidents par domaine ===== */
+.chain-flow { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.chain-step { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; padding: 7px 16px; font-size: 13px; font-weight: 600; box-shadow: var(--shadow); }
+.chain-arrow { color: var(--text-soft); font-weight: 700; }
+.dom-block { margin-bottom: 22px; }
+.dom-title { font-size: 17px; margin: 0 0 10px; padding-left: 12px; border-left: 4px solid var(--primary); }
+.inc-table td { font-size: 13px; vertical-align: top; }
+.inc-esc { display: inline-block; margin-top: 4px; font-size: 11px; font-weight: 700; color: var(--primary); background: rgba(30,136,229,.1); padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+
 /* ===== Footer ===== */
 .site-footer { text-align: center; color: var(--text-soft); font-size: 13px; padding-top: 40px; border-top: 1px solid var(--border); }
 

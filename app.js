@@ -599,6 +599,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* ---------- Incidents par domaine ---------- */
+  const incidentsDomains = document.getElementById('incidentsDomains');
+  if (incidentsDomains && typeof DOMAIN_INCIDENTS !== 'undefined') {
+    incidentsDomains.innerHTML = DOMAIN_INCIDENTS.map(d => `
+      <div class="dom-block">
+        <h3 class="dom-title" style="border-left-color:${d.color}"><span>${d.icon}</span> ${d.domain}</h3>
+        <div class="table-wrap">
+          <table class="data-table inc-table">
+            <thead><tr><th>Alarme / Incident</th><th>Symptôme</th><th>Cause probable</th><th>Action &amp; escalade</th></tr></thead>
+            <tbody>
+              ${d.items.map(i => `
+                <tr>
+                  <td><strong>${i.name}</strong></td>
+                  <td>${i.symptom}</td>
+                  <td>${i.cause}</td>
+                  <td>${i.action} <span class="inc-esc">→ ${i.esc}</span></td>
+                </tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>`).join('');
+  }
+
   /* ---------- Marché détaillé (chiffres clés) ---------- */
   const figuresGrid = document.getElementById('figuresGrid');
   if (figuresGrid && typeof KEY_FIGURES !== 'undefined') {
