@@ -325,7 +325,9 @@ const SEARCH_INDEX = [
   { t: "Cœur de réseau Core CS PS EPC 5GC", c: "Cœur", h: "#core" },
   { t: "MSC HLR HSS MME AMF UPF SGSN GGSN", c: "Cœur", h: "#core" },
   { t: "Incidents par domaine RAN Transmission Cœur IMS", c: "Incidents", h: "#incidents" },
-  { t: "VoLTE IMS registration SIP RTP SRVCC panne", c: "Incidents", h: "#incidents" }
+  { t: "VoLTE IMS registration SIP RTP SRVCC panne", c: "Incidents", h: "#incidents" },
+  { t: "Réseau fixe fibre optique FTTH GPON OLT ONT xDSL", c: "Fixe", h: "#fixe" },
+  { t: "Puissance optique OTDR splitter PON FWA", c: "Fixe", h: "#fixe" }
 ];
 
 /* ============================================================
@@ -486,7 +488,14 @@ const GLOSSARY = [
   { term: "S-GW / P-GW / UPF", def: "Plan utilisateur (transport des données) : passerelles EPC (4G), UPF (5G).", cat: "Cœur" },
   { term: "EPC", def: "Evolved Packet Core — le cœur de réseau 4G, entièrement IP (MME, S-GW, P-GW, HSS).", cat: "Cœur" },
   { term: "5GC", def: "5G Core — cœur 5G cloud-native en architecture par services (SBA) : AMF, SMF, UPF…", cat: "Cœur" },
-  { term: "IMS", def: "IP Multimedia Subsystem — sous-système qui gère la voix en IP (VoLTE/VoNR).", cat: "Cœur" }
+  { term: "IMS", def: "IP Multimedia Subsystem — sous-système qui gère la voix en IP (VoLTE/VoNR).", cat: "Cœur" },
+  { term: "FTTH", def: "Fiber To The Home — fibre optique amenée jusqu'au domicile de l'abonné (très haut débit).", cat: "Fixe" },
+  { term: "GPON", def: "Gigabit Passive Optical Network — techno fibre point-à-multipoint partagée via des splitters passifs.", cat: "Fixe" },
+  { term: "OLT", def: "Optical Line Terminal — équipement fibre côté central/opérateur (point de départ du PON).", cat: "Fixe" },
+  { term: "ONT / ONU", def: "Optical Network Terminal — boîtier fibre chez l'abonné (équivalent du modem).", cat: "Fixe" },
+  { term: "PON", def: "Passive Optical Network — réseau fibre où le partage se fait par des splitters passifs (sans électronique).", cat: "Fixe" },
+  { term: "xDSL", def: "ADSL/VDSL — accès Internet sur paire de cuivre ; le débit chute avec la distance au central.", cat: "Fixe" },
+  { term: "OTDR", def: "Optical Time-Domain Reflectometer — appareil qui localise coupures et atténuations sur une fibre.", cat: "Fixe" }
 ];
 
 /* ============================================================
@@ -824,6 +833,18 @@ const QUIZ = [
     options: ["Couverture", "Chemin média RTP / bearer dédié", "Licence", "Synchro GPS"],
     correct: 1,
     explain: "L'appel est établi (signalisation OK) mais le média ne passe pas : on regarde le chemin RTP et le bearer dédié (QCI 1)."
+  },
+  {
+    q: "Dans un réseau FTTH (GPON), l'équipement installé chez l'abonné s'appelle…",
+    options: ["L'OLT", "L'ONT", "La BBU", "Le splitter"],
+    correct: 1,
+    explain: "L'ONT (Optical Network Terminal) est le boîtier fibre chez l'abonné. L'OLT est côté central de l'opérateur."
+  },
+  {
+    q: "Une « perte de signal » (LOS) sur un accès fibre indique le plus souvent…",
+    options: ["Une saturation", "Une coupure de la fibre", "Une licence expirée", "Un mauvais handover"],
+    correct: 1,
+    explain: "LOS = plus de lumière reçue : généralement une fibre sectionnée (travaux, rongeurs) — on localise avec un OTDR."
   }
 ];
 
@@ -1135,4 +1156,22 @@ const DOMAIN_INCIDENTS = [
       { name: "SRVCC / CSFB Failure", symptom: "Coupure en quittant la 4G, appel raté", cause: "Réglage SRVCC / CSFB", action: "Ajuster les paramètres de bascule", esc: "Optimisation / Core" }
     ]
   }
+];
+
+/* ============================================================
+   Réseau fixe & fibre optique (FTTH)
+   ============================================================ */
+const FIXED_ACCESS = [
+  { tech: "RTC (cuivre)", support: "Paire de cuivre", debit: "Voix (téléphone fixe)", note: "Historique, en voie d'extinction" },
+  { tech: "ADSL / VDSL", support: "Cuivre (xDSL)", debit: "~1 – 100 Mbps", note: "Le débit chute avec la distance au central" },
+  { tech: "FTTH (fibre)", support: "Fibre optique", debit: "100 Mbps – plusieurs Gbps", note: "Très haut débit, souvent symétrique, fiable" },
+  { tech: "Fixed Wireless (FWA)", support: "Radio 4G/5G (box)", debit: "Selon couverture", note: "Alternative sans câble en zone non fibrée" }
+];
+
+const FIXED_INCIDENTS = [
+  { name: "Coupure fibre / Perte de signal (LOS)", symptom: "Abonné(s) totalement coupé(s)", cause: "Fibre sectionnée (travaux, rongeurs)", action: "Localiser avec un OTDR, réparer / ressouder", esc: "Field / Transmission" },
+  { name: "Puissance optique faible (Rx bas)", symptom: "Débit instable, déconnexions", cause: "Connecteur sale, fibre pincée, distance/splitter", action: "Nettoyer/contrôler les connecteurs, mesurer le Rx", esc: "Field" },
+  { name: "ONT hors ligne", symptom: "Un abonné sans service", cause: "ONT en panne ou mal configuré", action: "Redémarrer ou remplacer l'ONT", esc: "Field / Support" },
+  { name: "Congestion OLT / PON", symptom: "Débit dégradé aux heures de pointe", cause: "Trop d'abonnés sur le port PON / l'OLT", action: "Rééquilibrer, ajouter de la capacité OLT", esc: "Planification" },
+  { name: "Dégradation xDSL", symptom: "Débit faible sur cuivre", cause: "Distance au DSLAM, qualité de la ligne", action: "Tester la ligne, vérifier l'éligibilité fibre", esc: "Support / Field" }
 ];

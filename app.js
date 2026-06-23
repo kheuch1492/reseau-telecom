@@ -599,6 +599,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* ---------- Réseau fixe & fibre ---------- */
+  const fixedAccessBody = document.querySelector('#fixedAccessTable tbody');
+  if (fixedAccessBody && typeof FIXED_ACCESS !== 'undefined') {
+    fixedAccessBody.innerHTML = FIXED_ACCESS.map(f => `
+      <tr><td><strong>${f.tech}</strong></td><td>${f.support}</td><td>${f.debit}</td><td>${f.note}</td></tr>`).join('');
+  }
+  const fixedIncidentsBody = document.querySelector('#fixedIncidentsTable tbody');
+  if (fixedIncidentsBody && typeof FIXED_INCIDENTS !== 'undefined') {
+    fixedIncidentsBody.innerHTML = FIXED_INCIDENTS.map(i => `
+      <tr>
+        <td><strong>${i.name}</strong></td><td>${i.symptom}</td><td>${i.cause}</td>
+        <td>${i.action} <span class="inc-esc">→ ${i.esc}</span></td>
+      </tr>`).join('');
+  }
+
   /* ---------- Incidents par domaine ---------- */
   const incidentsDomains = document.getElementById('incidentsDomains');
   if (incidentsDomains && typeof DOMAIN_INCIDENTS !== 'undefined') {

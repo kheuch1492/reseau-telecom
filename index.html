@@ -45,6 +45,7 @@
     <a href="#metier" class="nav-link">👷 Le métier</a>
     <a href="#archi" class="nav-link">🏗️ Architecture réseau</a>
     <a href="#transmission" class="nav-link">🔗 Transmission</a>
+    <a href="#fixe" class="nav-link">🏠 Fixe & Fibre (FTTH)</a>
     <a href="#generations" class="nav-link">📶 Générations & 5G</a>
     <a href="#core" class="nav-link">🧠 Cœur de réseau</a>
     <a href="#voix" class="nav-link">📞 Voix 4G/5G (VoLTE)</a>
@@ -247,6 +248,58 @@
     </div>
     <div class="callout">
       <strong>💡 Lien avec le diagnostic :</strong> quand <strong>plusieurs sites tombent en même temps</strong>, on suspecte d'abord un problème de transmission sur un lien agrégé — pas une panne radio individuelle.
+    </div>
+  </section>
+
+  <!-- FIXE & FIBRE -->
+  <section id="fixe" class="section">
+    <h2 class="section-title">🏠 Réseau fixe & fibre optique (FTTH)</h2>
+    <p class="section-intro">À côté du mobile, l'opérateur fournit l'<strong>accès fixe</strong> (Internet/voix au domicile et en entreprise). La <strong>fibre optique (FTTH)</strong> en est aujourd'hui la techno phare.</p>
+
+    <h3>Les technologies d'accès fixe</h3>
+    <div class="table-wrap">
+      <table class="data-table" id="fixedAccessTable">
+        <thead><tr><th>Technologie</th><th>Support</th><th>Débit</th><th>Remarque</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <h3>La fibre / FTTH en détail</h3>
+    <p class="section-intro">La fibre transporte la <strong>lumière</strong> dans un cœur de verre : très haut débit, faible atténuation, longues distances, insensible aux interférences électromagnétiques.</p>
+    <div class="chain-flow">
+      <span class="chain-step">🏢 OLT (central)</span><span class="chain-arrow">→</span>
+      <span class="chain-step">🔀 Splitter (PON)</span><span class="chain-arrow">→</span>
+      <span class="chain-step">🏠 ONT (abonné)</span>
+    </div>
+    <div class="trans-notions">
+      <div class="notion"><strong>OLT</strong><p>Optical Line Terminal — point de départ côté opérateur (central).</p></div>
+      <div class="notion"><strong>Splitter (PON)</strong><p>Partage passif d'une fibre vers plusieurs abonnés (ex. 1:32, 1:64).</p></div>
+      <div class="notion"><strong>ONT / ONU</strong><p>Boîtier fibre chez l'abonné (équivalent du modem).</p></div>
+      <div class="notion"><strong>GPON</strong><p>Techno point-à-multipoint : ~2,5 Gbit/s down partagés (XGS-PON : 10G).</p></div>
+      <div class="notion"><strong>Monomode vs multimode</strong><p>Monomode = longue distance (opérateur) ; multimode = courtes distances (LAN/datacenter).</p></div>
+      <div class="notion"><strong>OTDR</strong><p>Appareil qui localise une coupure ou une atténuation sur la fibre.</p></div>
+    </div>
+
+    <h3>Lire la puissance optique reçue (Rx)</h3>
+    <p class="section-intro">Sur un ONT GPON, la puissance optique reçue (en dBm) indique la « santé » du lien fibre.</p>
+    <div class="scale-block">
+      <div class="scale-label">💡 Puissance optique Rx (ONT GPON)</div>
+      <div class="scale">
+        <span class="scale-seg" style="background:#2ea043">-8 à -24 dBm<br>Bon</span>
+        <span class="scale-seg" style="background:#fdd835;color:#333">-24 à -27<br>Limite</span>
+        <span class="scale-seg" style="background:#e53935">&lt; -28 dBm<br>Trop faible (LOS)</span>
+      </div>
+    </div>
+
+    <h3>Incidents fixe typiques</h3>
+    <div class="table-wrap">
+      <table class="data-table inc-table" id="fixedIncidentsTable">
+        <thead><tr><th>Incident</th><th>Symptôme</th><th>Cause probable</th><th>Action &amp; escalade</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <strong>💡 Même logique d'analyste :</strong> sur le fixe aussi, on part des <strong>KPI</strong> (débit, latence, dispo, taux de panne) et des <strong>mesures</strong> (puissance optique) pour diagnostiquer — comme pour le mobile.
     </div>
   </section>
 
